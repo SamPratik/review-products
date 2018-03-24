@@ -29,8 +29,8 @@
             {{-- Buttons under post --}}
             <p class="row">
               <span class="btn-container-under-post">
-                <a href="" style="margin-right:10px;" onclick="toggleComments(event);">view previous comments</a>
-                <a href="#" style="margin-right:10px;">Edit</a>
+                <a href="" onclick="toggleComments(event);">view previous comments</a>
+                <button class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
                 <a href="#">Delete</a>
               </span>
             </p>
@@ -44,7 +44,7 @@
                   <h5 class="mt-0">Samiul Alim Pratik</h5>
                   Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                   <p>
-                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
                     <a href="#">Delete</a>
                   </p>
                 </div>
@@ -67,6 +67,7 @@
               <div class="media-body">
                 <h5 class="mt-0">Samiul Alim Pratik</h5>
                 Last comment Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <br><br>
                 {{-- Comment input box --}}
                 <form class="row" method="post">
                   <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
@@ -130,6 +131,7 @@
               <div class="media-body">
                 <h5 class="mt-0">Samiul Alim Pratik</h5>
                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <br><br>
                 {{-- Comment input box --}}
                 <form class="row" method="post">
                   <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
@@ -238,6 +240,30 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Edit Comment Modal --}}
+<div class="modal fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="" action="index.html" method="post">
+          <div class="form-group">
+            <textarea class="form-control" name="name" rows="3" placeholder="You comment"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Update</button>
       </div>
     </div>
   </div>

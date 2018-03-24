@@ -11,15 +11,8 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('profile') }}">Profile</a>
       </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Shop
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Takeout</a>
-          <a class="dropdown-item" href="#">BFC</a>
-          <a class="dropdown-item" href="#">KFC</a>
-        </div>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="showShopModal(event)">Shop</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

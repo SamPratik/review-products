@@ -14,7 +14,6 @@
 @endpush
 
 @push('scripts')
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="{{ asset('js/jssor.slider-27.0.3.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('js/header.slider.js') }}" type="text/javascript"></script>
 @endpush

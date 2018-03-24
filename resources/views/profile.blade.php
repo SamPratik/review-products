@@ -98,6 +98,7 @@
                 <div class="media-body">
                   <h5 class="mt-0">Samiul Alim Pratik</h5>
                   Last comment Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  <br><br>
                   {{-- Comment input box --}}
                   <form class="row" method="post">
                     <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
@@ -161,6 +162,7 @@
                 <div class="media-body">
                   <h5 class="mt-0">Samiul Alim Pratik</h5>
                   Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                  <br><br>
                   {{-- Comment input box --}}
                   <form class="row" method="post">
                     <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
