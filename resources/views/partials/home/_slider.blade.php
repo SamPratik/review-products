@@ -8,7 +8,7 @@
             <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" />
             <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
               <h2>Chicken Cheese Delight</h2>
-              <p><i class="fas fa-star"></i> 7.8/10</p>
+              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i> 7.8/10</p>
               <p>Price: 270/-</p>
               <p>Location: sector-11, Uttara, Dhaka</p>
             </div>
@@ -17,7 +17,7 @@
             <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_pizza.jpg') }}" />
             <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
               <h2>Chicken Cheese Delight</h2>
-              <p><i class="fas fa-star"></i> 7.8/10</p>
+              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i>  7.8/10</p>
               <p>Price: 270/-</p>
               <p>Location: sector-11, Uttara, Dhaka</p>
             </div>
@@ -26,7 +26,7 @@
             <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_thai_food.jpg') }}" />
             <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
               <h2>Chicken Cheese Delight</h2>
-              <p><i class="fas fa-star"></i> 7.8/10</p>
+              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i>  7.8/10</p>
               <p>Price: 270/-</p>
               <p>Location: sector-11, Uttara, Dhaka</p>
             </div>

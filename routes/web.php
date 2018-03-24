@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+
+// Posts routes
+Route::resource('posts', 'Posts\PostController');
