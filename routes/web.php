@@ -11,7 +11,11 @@
 |
 */
 
-Route::get('/', 'HomeController@index')->name('home');
+                ######################
+                // User Routes
+                ######################
+Route::get('/', 'Pages\PageController@home')->name('home');
+Route::get('/profile', 'Pages\PageController@profile')->name('profile');
 
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
