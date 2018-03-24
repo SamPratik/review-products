@@ -23,7 +23,7 @@
               </div>
               <div class="col-md-6">
                 <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<a href="{{ route('posts.show', 1) }}">see more...</a></p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<a href="{{ route('posts.show', 1) }}" target="_blank">see more...</a></p>
               </div>
             </div>
             {{-- Buttons under post --}}
