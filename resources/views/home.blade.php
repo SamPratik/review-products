@@ -1,5 +1,7 @@
 @extends('main')
 
+@section('HomeActive', 'active')
+
 @push('styles')
   {{ Html::style('css/home/slider.css') }}
   {{ Html::style('css/home/all-review.css') }}

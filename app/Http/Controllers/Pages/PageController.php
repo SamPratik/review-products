@@ -22,4 +22,8 @@ class PageController extends Controller
     public function food($food) {
       return view('food');
     }
+
+    public function electronics($electronics) {
+        return view('electronics');
+    }
 }

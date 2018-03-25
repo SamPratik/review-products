@@ -1,5 +1,7 @@
 @extends('main')
 
+@section('ProfileActive', 'active')
+
 @push('styles')
   <style media="screen">
     .togglable-comments {

@@ -6,16 +6,16 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav nav-links-container">
       <li class="nav-item active">
-        <a class="nav-link" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link @yield('HomeActive')" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('profile') }}">Profile</a>
+        <a class="nav-link @yield('ProfileActive')" href="{{ route('profile') }}">Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#" onclick="showShopModal(event)">Shop</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle @yield('FoodActive')" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Food
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -25,13 +25,13 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle @yield('ElectronicsActive')" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Electronics
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Laptop</a>
-          <a class="dropdown-item" href="#">Mobile</a>
-          <a class="dropdown-item" href="#">Computer</a>
+          <a class="dropdown-item" href="{{ route('electronics', 'laptop') }}">Laptop</a>
+          <a class="dropdown-item" href="{{ route('electronics', 'mobile') }}">Mobile</a>
+          <a class="dropdown-item" href="{{ route('electronics', 'computer') }}">Computer</a>
         </div>
       </li>
       <li class="nav-item">

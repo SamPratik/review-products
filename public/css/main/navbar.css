@@ -20,3 +20,8 @@ nav {
   color: #5c39f2;
   background-color: #fff;
 }
+
+.active {
+  color: #5c39f2;
+  background-color: #fff;  
+}

@@ -1,6 +1,6 @@
 @extends('main')
 
-@section('FoodActive', 'active')
+@section('ElectronicsActive', 'active')
 
 @push('styles')
   <style media="screen">
