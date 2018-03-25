@@ -18,4 +18,8 @@ class PageController extends Controller
     public function profile() {
       return view('profile');
     }
+
+    public function food($food) {
+      return view('food');
+    }
 }

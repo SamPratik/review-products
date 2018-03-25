@@ -19,9 +19,9 @@
           Food
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Buger</a>
-          <a class="dropdown-item" href="#">Pizza</a>
-          <a class="dropdown-item" href="#">Thai Food</a>
+          <a class="dropdown-item" href="{{ route('food', 'burger') }}">Buger</a>
+          <a class="dropdown-item" href="{{ route('food', 'pizza') }}">Pizza</a>
+          <a class="dropdown-item" href="{{ route('food', 'thai food') }}">Thai Food</a>
         </div>
       </li>
       <li class="nav-item dropdown">
