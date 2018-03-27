@@ -1,5 +1,10 @@
 @push('styles')
   {{ Html::style('css/toast.css') }}
+  <style media="screen">
+    #errorMessageComment {
+      color: red;
+    }
+  </style>
 @endpush
 
 <div class="all-reviews-container">
@@ -73,14 +78,54 @@
                 Last comment Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                 <br><br>
                 {{-- Comment input box --}}
-                <form class="row" method="post">
-                  <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
-                  <input type="button" class="btn btn-primary btn-sm" name="" value="Submit">
+                <form autocomplete="off" id="commentFormId" class="row" onsubmit="storeComment(event, 20)">
+                  {{ csrf_field() }}
+                  <input class="col-md-12" type="text" name="comment" placeholder="comment on this review...">
+                  <p id="errorMessageComment"></p>
                 </form>
               </div>
             </div>
           </div>
         </div><hr>
+
+        @push('scripts')
+          <script>
+            function storeComment(e, postId) {
+              e.preventDefault();
+              var form = document.getElementById('commentFormId');
+              var fd = new FormData(form);
+              fd.append('postId', postId);
+              // console.log(fd);
+              $.ajax({
+                url: '{{ route('comments.store') }}',
+                type: 'POST',
+                data: fd,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                  var errorMessageComment = document.getElementById('errorMessageComment');
+                  errorMessageComment.innerHTML = '';
+                  console.log(data);
+                  // if review is stored in database successfully, then show the
+                  // success toast...
+                  if(data === "success") {
+                    document.getElementById("commentFormId").reset();
+                    var x = document.getElementById("snackbar");
+                    x.innerHTML = "You have commented successfully!";
+                    x.className = "show";
+                    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                  }
+                  // Showing error message in the HTML...
+                  if(typeof data.error != 'undefined') {
+                    if(typeof data.comment != 'undefined') {
+                      errorMessageComment.innerHTML = data.comment[0];
+                    }
+                  }
+                }
+              });
+            }
+          </script>
+        @endpush
 
         <div class="media">
           <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">

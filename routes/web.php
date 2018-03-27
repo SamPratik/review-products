@@ -22,5 +22,8 @@ Route::get('/electronics/{electronics}', 'Pages\PageController@electronics')->na
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
-// Posts routes
+// Posts routes...
 Route::resource('posts', 'PostController');
+
+// Comments Routes...
+Route::resource('comments', 'CommentController');
