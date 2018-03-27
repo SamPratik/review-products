@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Post as Post;
 
 class PageController extends Controller
 {
@@ -12,7 +13,8 @@ class PageController extends Controller
     }
 
     public function home() {
-      return view('home');
+      $posts = Post::latest()->get();
+      return view('home', ['posts' => $posts]);
     }
 
     public function profile() {

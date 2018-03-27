@@ -23,9 +23,9 @@
 {{-- toggle comments using jquery --}}
 @push('scripts')
   <script>
-    function toggleComments(e) {
+    function toggleComments(e, postId) {
       e.preventDefault();
-      $("#togglableComments1").toggle();
+      $("#togglableComments"+postId).toggle();
     }
   </script>
 @endpush
