@@ -32,7 +32,7 @@
                   <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> {{ $post->rating }}/10</p>
                 </div>
                 <div class="col-md-6">
-                  <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
+                  <img src="{{ asset('images/food-images/slider/' . $post->postImages()->first()->image) }}" alt="" width="100%">
                   <p>{{ (strlen($post->post) > 200) ? substr($post->post, 0, 200) : $post->post }}<a href="{{ route('posts.show', $post->id) }}" target="_blank"> see more...</a></p>
                 </div>
               </div>
