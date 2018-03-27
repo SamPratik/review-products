@@ -12,7 +12,7 @@
 */
 
                 ######################
-                // User Routes
+                    // User Routes
                 ######################
 Route::get('/', 'Pages\PageController@home')->name('home');
 Route::get('/profile', 'Pages\PageController@profile')->name('profile');
@@ -23,4 +23,4 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // Posts routes
-Route::resource('posts', 'Posts\PostController');
+Route::resource('posts', 'PostController');
