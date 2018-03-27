@@ -1,7 +1,7 @@
 @push('styles')
   {{ Html::style('css/toast.css') }}
   <style media="screen">
-    #errorMessageComment {
+    .error-message-comment {
       color: red;
     }
   </style>
@@ -40,7 +40,7 @@
               <p class="row">
                 <span class="btn-container-under-post">
                   @if (count($post->comments) > 1)
-                  <a href="" onclick="toggleComments(event, {{$post->id}});">view previous comments</a>
+                  <a id="toggleCommentBtn{{ $post->id }}" href="" onclick="toggleComments(event, {{$post->id}});">view previous comments</a>
                   @endif
                   @if ($post->user->id == Auth::user()->id)
                   <button class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
@@ -60,10 +60,12 @@
                     <div class="media-body">
                       <h5 class="mt-0">{{ $comment->user->name }}</h5>
                       {{ $comment->comment }}
+                      @if (Auth::user()->id == $comment->user->id)
                       <p>
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
                         <a href="#">Delete</a>
                       </p>
+                      @endif
                     </div>
                   </div>
                   @endif
@@ -75,20 +77,27 @@
                       <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
                     </a>
                     <div class="media-body">
-                      <h5 class="mt-0">Samiul Alim Pratik</h5>
+                      <h5 class="mt-0">{{ $comment->user->name }}</h5>
                       {{ $comment->comment }}
+                      @if (Auth::user()->id == $comment->user->id)
+                      <p>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                        <a href="#">Delete</a>
+                      </p>
+                      @else
                       <br><br>
-                      {{-- Comment input box --}}
-                      <form autocomplete="off" id="commentFormId" class="row" onsubmit="storeComment(event, 20)">
-                        {{ csrf_field() }}
-                        <input class="col-md-12" type="text" name="comment" placeholder="comment on this review...">
-                        <p id="errorMessageComment"></p>
-                      </form>
+                      @endif
                     </div>
                   </div>
                 @endif
               @endforeach
               @endif
+              {{-- Comment input box --}}
+              <form autocomplete="off" id="commentFormId{{ $post->id }}" class="row" onsubmit="storeComment(event, {{ $post->id }})">
+                {{ csrf_field() }}
+                <input class="col-md-12" type="text" name="comment" placeholder="comment on this review...">
+                <p class="error-message-comment" id="errorMessageComment{{ $post->id }}"></p>
+              </form>
             </div>
           </div><hr>
         @endforeach
@@ -97,7 +106,8 @@
           <script>
             function storeComment(e, postId) {
               e.preventDefault();
-              var form = document.getElementById('commentFormId');
+
+              var form = document.getElementById('commentFormId' + postId);
               var fd = new FormData(form);
               fd.append('postId', postId);
               // console.log(fd);
@@ -108,13 +118,16 @@
                 contentType: false,
                 processData: false,
                 success: function(data) {
-                  var errorMessageComment = document.getElementById('errorMessageComment');
-                  errorMessageComment.innerHTML = '';
+                  var errorMessageComment = document.getElementById('errorMessageComment' + postId);
                   console.log(data);
+                  var errorMessageComments = document.getElementsByClassName('error-message-comment');
+                  for(i=0; i<errorMessageComments.length; i++) {
+                    errorMessageComments[i].innerHTML = '';
+                  }
                   // if review is stored in database successfully, then show the
                   // success toast...
                   if(data === "success") {
-                    document.getElementById("commentFormId").reset();
+                    document.getElementById("commentFormId" + postId).reset();
                     var x = document.getElementById("snackbar");
                     x.innerHTML = "You have commented successfully!";
                     x.className = "show";

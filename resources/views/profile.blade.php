@@ -7,20 +7,73 @@
     .togglable-comments {
       display: none;
     }
+    .error-message-comment {
+      color: red;
+    }
   </style>
+  {{ Html::style('css/toast.css') }}
 @endpush
 
 {{-- toggle comments using jquery --}}
 @push('scripts')
   <script>
-    function toggleComments(e) {
+    function toggleComments(e, postId) {
       e.preventDefault();
-      $("#togglableComments1").toggle();
+      var toggleCommentBtn = document.getElementById("toggleCommentBtn"+postId);
+      if(toggleCommentBtn.innerHTML == 'view previous comments') {
+        toggleCommentBtn.innerHTML = 'hide comments';
+      } else {
+        toggleCommentBtn.innerHTML = 'view previous comments';
+      }
+      $("#togglableComments" + postId).toggle();
+    }
+  </script>
+  <script>
+    function storeComment(e, postId) {
+      e.preventDefault();
+
+      var form = document.getElementById('commentFormId' + postId);
+      var fd = new FormData(form);
+      fd.append('postId', postId);
+      // console.log(fd);
+      $.ajax({
+        url: '{{ route('comments.store') }}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          var errorMessageComment = document.getElementById('errorMessageComment' + postId);
+          console.log(data);
+          var errorMessageComments = document.getElementsByClassName('error-message-comment');
+          for(i=0; i<errorMessageComments.length; i++) {
+            errorMessageComments[i].innerHTML = '';
+          }
+          // if review is stored in database successfully, then show the
+          // success toast...
+          if(data === "success") {
+            document.getElementById("commentFormId" + postId).reset();
+            var x = document.getElementById("snackbar");
+            x.innerHTML = "You have commented successfully!";
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+          }
+          // Showing error message in the HTML...
+          if(typeof data.error != 'undefined') {
+            if(typeof data.comment != 'undefined') {
+              errorMessageComment.innerHTML = data.comment[0];
+            }
+          }
+        }
+      });
     }
   </script>
 @endpush
 
 @section('content')
+  {{-- Success alert --}}
+  @includeif('partials.toast')
+
   <div class="profile-info-review-container" style="padding:50px 0px;">
     <div class="container">
       <div class="row">
@@ -43,137 +96,87 @@
         </div>
         <div class="col-md-9">
           {{-- Post with comments --}}
-          <div class="media">
-            <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-            <div class="media-body">
-              <h5 class="mt-0"><strong>Zawad Arefin</strong> gives review on <strong>Chicken Cheese Delight</strong> <strong>Burger</strong></h5>
-              <div class="row">
-                <div class="col-md-3" class="post-icon-container">
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-shopping-cart" aria-hidden="true"></i> Takeout</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-map-marker"></i> Dhanmondi</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-usd" aria-hidden="true"></i> 270/-</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> 7.8/10</p>
-                </div>
-                <div class="col-md-6">
-                  <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<a href="{{ route('posts.show', 1) }}" target="_blank">see more...</a></p>
-                </div>
-              </div>
-              {{-- Buttons under post --}}
-              <p class="row">
-                <span class="btn-container-under-post">
-                  <a href="" onclick="toggleComments(event);">view previous comments</a>
-                  <button class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
-                  <a href="#">Delete</a>
-                </span>
-              </p>
-              {{-- Comments --}}
-              <div id="togglableComments1" class="togglable-comments">
-                <div class="media mt-3">
-                  <a class="pr-3" href="#">
-                    <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                  </a>
-                  <div class="media-body">
-                    <h5 class="mt-0">Samiul Alim Pratik</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    <p>
-                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
-                      <a href="#">Delete</a>
-                    </p>
+          @foreach ($posts as $post)
+            <div class="media">
+              <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+              <div class="media-body">
+                <h5 class="mt-0"><strong>{{ Auth::user()->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
+                <div class="row">
+                  <div class="col-md-3" class="post-icon-container">
+                    <p><i style="font-weight: bold;color: #000033;" class="fa fa-shopping-cart" aria-hidden="true"></i> {{ $post->shop_name }}</p>
+                    <p><i style="font-weight: bold;color: #000033;" class="fa fa-map-marker"></i> {{ $post->shop_location }}</p>
+                    <p><i style="font-weight: bold;color: #000033;" class="fa fa-usd" aria-hidden="true"></i> {{ $post->price }}/-</p>
+                    <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> {{ $post->rating }}/10</p>
+                  </div>
+                  <div class="col-md-6">
+                    <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
+                    <p>{{ (strlen($post->post) > 200) ? substr($post->post, 0, 200) : $post->post }}<a href="{{ route('posts.show', $post->id) }}" target="_blank"> see more...</a></p>
                   </div>
                 </div>
-                <div class="media mt-3">
-                  <a class="pr-3" href="#">
-                    <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                  </a>
-                  <div class="media-body">
-                    <h5 class="mt-0">Samiul Alim Pratik</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                {{-- Buttons under post --}}
+                <p class="row">
+                  <span class="btn-container-under-post">
+                    @if (count($post->comments) > 1)
+                    <a id="toggleCommentBtn{{ $post->id }}" href="" onclick="toggleComments(event, {{ $post->id }});">view previous comments</a>
+                    @endif
+                    <button class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
+                    <a href="#">Delete</a>
+                  </span>
+                </p>
+                {{-- Comments --}}
+                @if (count($post->comments) > 0)
+                {{-- Comments --}}
+                <div id="togglableComments{{ $post->id }}" class="togglable-comments">
+                @foreach ($post->comments as $comment)
+                    @if (!$loop->last)
+                    <div class="media mt-3">
+                      <a class="pr-3" href="#">
+                        <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+                      </a>
+                      <div class="media-body">
+                        <h5 class="mt-0">{{ $comment->user->name }}</h5>
+                        {{ $comment->comment }}
+                        @if (Auth::user()->id == $comment->user->id)
+                        <p>
+                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                          <a href="#">Delete</a>
+                        </p>
+                        @endif
+                      </div>
+                    </div>
+                    @endif
+                  {{-- last visible comment --}}
+                  @if ($loop->last)
                   </div>
-                </div>
+                    <div class="media mt-3">
+                      <a class="pr-3" href="#">
+                        <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+                      </a>
+                      <div class="media-body">
+                        <h5 class="mt-0">{{ $comment->user->name }}</h5>
+                        {{ $comment->comment }}
+                        @if (Auth::user()->id == $comment->user->id)
+                        <p>
+                          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                          <a href="#">Delete</a>
+                        </p>
+                        @else
+                        <br><br>
+                        @endif
+                      </div>
+                    </div>
+                  @endif
+                @endforeach
+                @endif
+                {{-- Comment input box --}}
+                <form autocomplete="off" id="commentFormId{{$post->id}}" class="row" onsubmit="storeComment(event, {{$post->id}})">
+                  {{ csrf_field() }}
+                  <input class="col-md-12" type="text" name="comment" placeholder="comment on this review...">
+                  <p class="error-message-comment" id="errorMessageComment{{$post->id}}"></p>
+                </form>
               </div>
-              {{-- last visible comment --}}
-              <div class="media mt-3">
-                <a class="pr-3" href="#">
-                  <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                </a>
-                <div class="media-body">
-                  <h5 class="mt-0">Samiul Alim Pratik</h5>
-                  Last comment Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  <br><br>
-                  {{-- Comment input box --}}
-                  <form class="row" method="post">
-                    <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
-                    <input type="button" class="btn btn-primary btn-sm" name="" value="Submit">
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div><hr>
-
-          <div class="media">
-            <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-            <div class="media-body">
-              <h5 class="mt-0"><strong>Zawad Arefin</strong> gives review on <strong>Chicken Cheese Delight</strong> <strong>Burger</strong></h5>
-              <div class="row">
-                <div class="col-md-3">
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-shopping-cart" aria-hidden="true"></i> Takeout</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-map-marker"></i> Dhanmondi</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-usd" aria-hidden="true"></i> 270/-</p>
-                  <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> 7.8/10</p>
-                </div>
-                <div class="col-md-6">
-                  <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<a href="#">see more...</a></p>
-                </div>
-              </div>
-              {{-- Buttons under post --}}
-              <p class="row">
-                <span class="btn-container-under-post">
-                  <a href="" style="margin-right:10px;" onclick="toggleComments(event);">view previous comments</a>
-                  <a href="#" style="margin-right:10px;">Edit</a>
-                  <a href="#">Delete</a>
-                </span>
-              </p>
-              {{-- Comments --}}
-              <div id="togglableComments2" class="togglable-comments">
-                <div class="media mt-3">
-                  <a class="pr-3" href="#">
-                    <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                  </a>
-                  <div class="media-body">
-                    <h5 class="mt-0">Samiul Alim Pratik</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  </div>
-                </div>
-                <div class="media mt-3">
-                  <a class="pr-3" href="#">
-                    <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                  </a>
-                  <div class="media-body">
-                    <h5 class="mt-0">Samiul Alim Pratik</h5>
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  </div>
-                </div>
-              </div>
-              {{-- last visible comment --}}
-              <div class="media mt-3">
-                <a class="pr-3" href="#">
-                  <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                </a>
-                <div class="media-body">
-                  <h5 class="mt-0">Samiul Alim Pratik</h5>
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                  <br><br>
-                  {{-- Comment input box --}}
-                  <form class="row" method="post">
-                    <input class="col-md-10" type="text" name="" value="" placeholder="comment on this review...">
-                    <input type="button" class="btn btn-primary btn-sm" name="" value="Submit">
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
+            </div><hr>
+          @endforeach
         </div>
       </div>
     </div>

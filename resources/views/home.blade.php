@@ -25,6 +25,12 @@
   <script>
     function toggleComments(e, postId) {
       e.preventDefault();
+      var toggleCommentBtn = document.getElementById("toggleCommentBtn"+postId);
+      if(toggleCommentBtn.innerHTML == 'view previous comments') {
+        toggleCommentBtn.innerHTML = 'hide comments';
+      } else {
+        toggleCommentBtn.innerHTML = 'view previous comments';
+      }
       $("#togglableComments"+postId).toggle();
     }
   </script>

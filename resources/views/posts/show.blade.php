@@ -13,7 +13,7 @@
                 {{-- Single Image --}}
                 @if (count($post->postImages) == 1)
                 <div class="col-md-12" style="margin-bottom:10px;">
-                  <img src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" alt="" width="100%">
+                  <img src="{{ asset('images/food-images/slider/' . $post->postImages[0]->image) }}" alt="" width="100%">
                 </div>
                 @endif
                 {{-- Carousel Slide for multiple images --}}
@@ -97,11 +97,11 @@
           </div>
           <div class="row">
             <h3 class="col-md-12">Category</h3><br>
-            <strong class="col-md-12"> - Food</strong>
+            <strong class="col-md-12"> - {{ $post->category->name }}</strong>
           </div><br><br>
           <div class="row">
             <h3 class="col-md-12">Sub Category</h3><br>
-            <strong class="col-md-12"> - Burger</strong>
+            <strong class="col-md-12"> - {{ $post->subCategory->name }}</strong>
           </div>
         </div>
       </div>
