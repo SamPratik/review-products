@@ -20,7 +20,7 @@
         </div><br>
         {{-- Post with comments --}}
         @foreach ($posts as $post)
-          <div class="media">
+          <div class="media" id="postWithComments{{$post->id}}">
             <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
             <div class="media-body">
               <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
@@ -48,6 +48,7 @@
                   @endif
                 </span>
               </p>
+              {{-- <div id="allComments{{$post->id}}"> --}}
               @if (count($post->comments) > 0)
               {{-- Comments --}}
               <div id="togglableComments{{ $post->id }}" class="togglable-comments">
@@ -61,7 +62,7 @@
                       <h5 class="mt-0">{{ $comment->user->name }}</h5>
                       {{ $comment->comment }}
                       @if (Auth::user()->id == $comment->user->id)
-                      <p>
+                      <p style="margin:0px;">
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
                         <a href="#">Delete</a>
                       </p>
@@ -80,7 +81,7 @@
                       <h5 class="mt-0">{{ $comment->user->name }}</h5>
                       {{ $comment->comment }}
                       @if (Auth::user()->id == $comment->user->id)
-                      <p>
+                      <p style="margin:0px;">
                         <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
                         <a href="#">Delete</a>
                       </p>
@@ -92,6 +93,7 @@
                 @endif
               @endforeach
               @endif
+              {{-- </div> --}}
               {{-- Comment input box --}}
               <form autocomplete="off" id="commentFormId{{ $post->id }}" class="row" onsubmit="storeComment(event, {{ $post->id }})">
                 {{ csrf_field() }}
@@ -102,6 +104,7 @@
           </div><hr>
         @endforeach
 
+        {{-- Store comment AJAX request --}}
         @push('scripts')
           <script>
             function storeComment(e, postId) {
@@ -127,6 +130,7 @@
                   // if review is stored in database successfully, then show the
                   // success toast...
                   if(data === "success") {
+                    $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
                     document.getElementById("commentFormId" + postId).reset();
                     var x = document.getElementById("snackbar");
                     x.innerHTML = "You have commented successfully!";
