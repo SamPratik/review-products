@@ -27,19 +27,23 @@
       <div class="row">
         <div class="col-md-3">
           <div class="col-md-12">
-            <img width="100%" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="">
+            @if (empty(Auth::user()->image))
+            <img width="100%" src={{ asset('images/profile-images/blank_image.png') }} alt="">
+            @else
+            <img width="100%" src={{ asset('images/profile-images/' . Auth::user()->image) }} alt="">
+            @endif
           </div><br>
           <div class="col-md-12">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p>{{ Auth::user()->about }}</p>
           </div><br>
           <div class="col-md-12">
-            <i class="fa fa-envelope" aria-hidden="true"></i> <strong>pratik.anwar@gmail.com</strong>
+            <i class="fa fa-envelope" aria-hidden="true"></i> <strong>{{ Auth::user()->email }}</strong>
           </div><br>
           <div class="col-md-12">
-            <i class="fa fa-phone" aria-hidden="true"></i> <strong>01689583182</strong>
+            <i class="fa fa-phone" aria-hidden="true"></i> <strong>{{ Auth::user()->phone }}</strong>
           </div><br>
           <div class="col-md-12">
-            <i class="fa fa-map-marker"></i> <strong>Kalabagan, Dhanmondi</strong>
+            <i class="fa fa-map-marker"></i> <strong>{{ Auth::user()->location }}</strong>
           </div><br>
         </div>
         <div class="col-md-9">
