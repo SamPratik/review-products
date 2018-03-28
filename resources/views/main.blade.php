@@ -32,7 +32,7 @@
       @includeif('partials.main._header')
 
       {{-- Navbar --}}
-      @includeif('partials.main._navbar')
+      @yield('navbar')
 
       @yield('content')
 

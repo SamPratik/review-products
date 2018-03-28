@@ -83,3 +83,48 @@
     </div><hr> {{-- media for post --}}
   @endforeach {{-- loop for all posts --}}
 </div>
+
+{{-- Store comment AJAX request --}}
+@push('scripts')
+  <script>
+    function storeComment(e, postId) {
+      e.preventDefault();
+
+      var form = document.getElementById('commentFormId' + postId);
+      var fd = new FormData(form);
+      fd.append('postId', postId);
+      // console.log(fd);
+      $.ajax({
+        url: '{{ route('comments.store') }}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          var errorMessageComment = document.getElementById('errorMessageComment' + postId);
+          console.log(data);
+          var errorMessageComments = document.getElementsByClassName('error-message-comment');
+          for(i=0; i<errorMessageComments.length; i++) {
+            errorMessageComments[i].innerHTML = '';
+          }
+          // if review is stored in database successfully, then show the
+          // success toast...
+          if(data === "success") {
+            $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
+            document.getElementById("commentFormId" + postId).reset();
+            var x = document.getElementById("snackbar");
+            x.innerHTML = "You have commented successfully!";
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+          }
+          // Showing error message in the HTML...
+          if(typeof data.error != 'undefined') {
+            if(typeof data.comment != 'undefined') {
+              errorMessageComment.innerHTML = data.comment[0];
+            }
+          }
+        }
+      });
+    }
+  </script>
+@endpush

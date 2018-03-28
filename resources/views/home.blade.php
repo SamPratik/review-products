@@ -36,7 +36,12 @@
   </script>
 @endpush
 
+@section('navbar')
+  @includeif('partials._navbar')
+@endsection
+
 @section('content')
+
   {{-- Slider --}}
   @includeif('partials.home._slider')
 

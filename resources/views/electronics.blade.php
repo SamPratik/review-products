@@ -20,6 +20,10 @@
   </script>
 @endpush
 
+@section('navbar')
+  @includeif('partials._navbar')
+@endsection
+
 @section('content')
   <div class="all-reviews-container" style="padding:50px 0px;">
     <div class="container">
