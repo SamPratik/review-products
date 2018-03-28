@@ -45,6 +45,12 @@
           <div class="col-md-12">
             <i class="fa fa-map-marker"></i> <strong>{{ Auth::user()->location }}</strong>
           </div><br>
+          <div class="col-md-12">
+            <strong>Religion: {{ Auth::user()->religion }}</strong>
+          </div><br>
+          <div class="col-md-12">
+            <strong><i class="fa fa-mars"></i> {{ Auth::user()->gender }}</strong>
+          </div><br>
         </div>
         <div class="col-md-9">
           {{-- Post with comments --}}

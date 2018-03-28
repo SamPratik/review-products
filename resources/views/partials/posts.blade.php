@@ -1,7 +1,7 @@
 <div id="allPostsContainer">
   @foreach ($posts as $post)
     <div class="media" id="postWithComments{{$post->id}}">
-      <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+      <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $post->user->image) }}" alt="Profile Pic">
       <div class="media-body">
         <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
         <div class="row">
@@ -36,7 +36,7 @@
             @if (!$loop->last)
             <div class="media mt-3">
               <a class="pr-3" href="#">
-                <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+                <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $comment->user->image) }}" alt="Profile Pic">
               </a>
               <div class="media-body">
                 <h5 class="mt-0">{{ $comment->user->name }}</h5>
@@ -55,7 +55,7 @@
           </div> {{-- toggable comments div --}}
             <div class="media mt-3">
               <a class="pr-3" href="#">
-                <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+                <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $comment->user->image) }}" alt="Profile Pic">
               </a>
               <div class="media-body">
                 <h5 class="mt-0">{{ $comment->user->name }}</h5>
