@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Post as Post;
+use App\SubCategory as SubCategory;
 use Auth;
 
 class PageController extends Controller
@@ -15,20 +16,25 @@ class PageController extends Controller
 
     public function home() {
       $posts = Post::latest()->get();
-      return view('home', ['posts' => $posts]);
+      $foods = SubCategory::where('category_id', 1)->get();
+      return view('home', ['posts' => $posts, 'foods' => $foods]);
     }
 
     public function profile() {
       $id = Auth::user()->id;
       $posts = Post::where('user_id', $id)->latest()->get();
-      return view('profile', ['posts' => $posts]);
+      $foods = SubCategory::where('category_id', 1)->get();
+      return view('profile', ['posts' => $posts, 'foods' => $foods]);
     }
 
     public function food($food) {
-      return view('food');
+      $posts = Post::where('subcategory_id', $food)->latest()->get();
+      $foods = SubCategory::where('category_id', 1)->get();
+      return view('food', ['posts' => $posts, 'foods' => $foods]);
     }
 
     public function electronics($electronics) {
-        return view('electronics');
+        $foods = SubCategory::where('category_id', 1)->get();
+        return view('electronics', ['foods' => $foods]);
     }
 }

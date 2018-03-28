@@ -19,9 +19,9 @@
           Food
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ route('food', 'burger') }}">Buger</a>
-          <a class="dropdown-item" href="{{ route('food', 'pizza') }}">Pizza</a>
-          <a class="dropdown-item" href="{{ route('food', 'thai food') }}">Thai Food</a>
+          @foreach ($foods as $food)
+          <a class="dropdown-item" href="{{ route('food', $food->id) }}">{{$food->name}}</a>
+          @endforeach
         </div>
       </li>
       <li class="nav-item dropdown">

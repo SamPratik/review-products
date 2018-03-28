@@ -3,7 +3,7 @@
     <div class="media" id="postWithComments{{$post->id}}">
       <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
       <div class="media-body">
-        <h5 class="mt-0"><strong>{{ Auth::user()->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
+        <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
         <div class="row">
           {{-- info of posts with icon --}}
           <div class="col-md-3" class="post-icon-container">
@@ -125,6 +125,22 @@
           }
         }
       });
+    }
+  </script>
+@endpush
+
+{{-- toggle comments using jquery --}}
+@push('scripts')
+  <script>
+    function toggleComments(e, postId) {
+      e.preventDefault();
+      var toggleCommentBtn = document.getElementById("toggleCommentBtn"+postId);
+      if(toggleCommentBtn.innerHTML == 'view previous comments') {
+        toggleCommentBtn.innerHTML = 'hide comments';
+      } else {
+        toggleCommentBtn.innerHTML = 'view previous comments';
+      }
+      $("#togglableComments"+postId).toggle();
     }
   </script>
 @endpush

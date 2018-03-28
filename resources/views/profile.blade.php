@@ -14,22 +14,6 @@
   {{ Html::style('css/toast.css') }}
 @endpush
 
-{{-- toggle comments using jquery --}}
-@push('scripts')
-  <script>
-    function toggleComments(e, postId) {
-      e.preventDefault();
-      var toggleCommentBtn = document.getElementById("toggleCommentBtn"+postId);
-      if(toggleCommentBtn.innerHTML == 'view previous comments') {
-        toggleCommentBtn.innerHTML = 'hide comments';
-      } else {
-        toggleCommentBtn.innerHTML = 'view previous comments';
-      }
-      $("#togglableComments" + postId).toggle();
-    }
-  </script>
-@endpush
-
 @section('navbar')
   @includeif('partials._navbar')
 @endsection
