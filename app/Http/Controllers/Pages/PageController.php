@@ -20,7 +20,7 @@ class PageController extends Controller
 
     public function profile() {
       $id = Auth::user()->id;
-      $posts = Post::where('user_id', $id)->get();
+      $posts = Post::where('user_id', $id)->latest()->get();
       return view('profile', ['posts' => $posts]);
     }
 

@@ -106,6 +106,7 @@
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
+            $("#allPostsContainer").load(location.href + " #allPostsContainer");
             document.getElementById("addReviewForm").reset();
             var x = document.getElementById("snackbar");
             x.innerHTML = "review posted successfully!";
