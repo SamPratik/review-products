@@ -1,4 +1,11 @@
-
+@push('styles')
+  <style media="screen">
+    .error-message-edit-review {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+@endpush
 <div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -16,7 +23,7 @@
             <label for="">Display Images</label>
             <input type="file" name="files[]" multiple>
             <p><small>[Upload 1366 X 600 images for best quality]</small></p>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Category</label>
@@ -24,7 +31,7 @@
               <option value="1">Food</option>
               <option value="2">Electronics</option>
             </select>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Sub Category</label>
@@ -32,37 +39,37 @@
               <option value="1">Burger</option>
               <option value="2">Pizza</option>
             </select>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Item Name</label>
             <input id="item" name="item" type="text" class="form-control" value="">
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Shop Name</label>
             <input name="shop" type="text" class="form-control" id="shop" value="">
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Shop Location</label>
             <input name="location" id="location" type="text" class="form-control" value="">
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Price</label>
             <input name="price" id="price" type="number" class="form-control" value="">
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Rating</label>
             <input name="rating" id="rating" type="number" class="form-control" value="">
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
             <label for="">Comment</label>
             <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
         </form>
       </div>
@@ -114,7 +121,7 @@
         processData: false,
         success: function(data) {
           console.log(data);
-          var em = document.getElementsByClassName("error-message");
+          var em = document.getElementsByClassName("error-message-edit-review");
 
           // after returning from the controller we are clearing the
           // previous error messages...

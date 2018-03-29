@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post as Post;
 use App\Shop as Shop;
+use App\SubCategory as SubCategory;
 use App\PostImage as PostImage;
+use App\Comment as Comment;
 use Validator;
 use Auth;
 use Image;
@@ -127,7 +129,8 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('posts.show', ['post' => $post]);
+        $foods = SubCategory::where('category_id', 1)->get();
+        return view('posts.show', ['post' => $post, 'foods' => $foods]);
     }
 
     /**
@@ -253,6 +256,18 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $postImages = PostImage::where('post_id', $id)->get();
+
+        // remove images from server...
+        foreach($postImages as $postImage) {
+            $imagePath = public_path() . '/images/food-images/slider/' . $postImage->image;
+            unlink($imagePath);
+        }
+
+        $deletPostImages = PostImage::where('post_id', $id)->delete();
+        $deleteComments = Comment::where('post_id', $id)->delete();
+        $deletePost = Post::find($id)->delete();
+
+        return "success";
     }
 }

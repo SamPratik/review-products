@@ -35,7 +35,7 @@
             <p class="error-message"></p>
           </div>
           <div class="form-group">
-            <select disabled name="subcategory" id="subCat" class="form-control form-control-sm">
+            <select disabled name="subcategory" id="addSubCat" class="form-control form-control-sm">
               <option selected disabled>Sub category</option>
               <option value="1">Burger</option>
               <option value="2">Pizza</option>
@@ -79,7 +79,7 @@
 @push('scripts')
   <script>
     function enableSubCat() {
-      document.getElementById('subCat').disabled = false;
+      document.getElementById('addSubCat').disabled = false;
     }
 
     function addReview() {

@@ -1,5 +1,9 @@
 @extends('main')
 
+@section('navbar')
+@includeif('partials._navbar')
+@endsection
+
 @section('content')
   <div class="all-reviews-container" style="padding:70px 0px;">
     <div class="container">

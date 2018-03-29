@@ -1,3 +1,15 @@
+@push('scripts')
+  <style media="screen">
+    .show {
+      display: block;
+    }
+
+    .togglable-comments {
+      display: none;
+    }
+  </style>
+@endpush
+
 <div id="allPostsContainer">
   @foreach ($posts as $post)
     <div class="media" id="postWithComments{{$post->id}}">
@@ -27,7 +39,7 @@
             <a id="toggleCommentBtn{{ $post->id }}" href="" onclick="toggleComments(event, {{ $post->id }});">view previous comments</a>
             @endif
             <a style="margin:0px 10px;" href="" onclick="showEditReviewModal(event, {{$post->id}})">Edit</a>
-            <a href="#">Delete</a>
+            <a href="#" onclick="deletePost(event, {{ $post->id }})">Delete</a>
           </span>
         </p>
 
@@ -116,7 +128,7 @@
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
-            $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
+            $("#postWithComments").load(location.href + " #postWithComments"+postId);
             document.getElementById("commentFormId" + postId).reset();
             var x = document.getElementById("snackbar");
             x.innerHTML = "You have commented successfully!";
@@ -147,6 +159,38 @@
         toggleCommentBtn.innerHTML = 'view previous comments';
       }
       $("#togglableComments"+postId).toggle();
+    }
+  </script>
+@endpush
+
+{{-- Deleting post AJAX request --}}
+@push('scripts')
+  <script>
+    function deletePost(e, postId) {
+      e.preventDefault();
+      var c = confirm("Are you sure you want to delete this post?");
+
+      if(c == true) {
+        $.ajax({
+          url: 'post/delete/'+postId,
+          type: 'GET',
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            console.log(data);
+
+            // if post is deleted successfully then show the toast
+            // and refresh the div to show posts...
+            if(data === "success") {
+              $("#allPostsContainer").load(location.href + " #allPostsContainer");
+              var x = document.getElementById("snackbar");
+              x.innerHTML = "Post is successfully deleted!";
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+          }
+        });
+      }
     }
   </script>
 @endpush

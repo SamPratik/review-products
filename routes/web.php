@@ -28,11 +28,13 @@ Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::resource('posts', 'PostController', [
   'except' => [
     'edit',
-    'update'
+    'update',
+    'destroy'
   ]
 ]);
 Route::post('post/update', 'PostController@update')->name('posts.update');
 Route::get('post/edit/{id}', 'PostController@edit')->name('posts.edit');
+Route::get('post/delete/{post}', 'PostController@destroy')->name('posts.destroy');
 
 // Comments Routes...
 Route::resource('comments', 'CommentController');
