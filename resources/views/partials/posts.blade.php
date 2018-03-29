@@ -3,19 +3,21 @@
     <div class="media" id="postWithComments{{$post->id}}">
       <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $post->user->image) }}" alt="Profile Pic">
       <div class="media-body">
-        <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
-        <div class="row">
-          {{-- info of posts with icon --}}
-          <div class="col-md-3" class="post-icon-container">
-            <p><i style="font-weight: bold;color: #000033;" class="fa fa-shopping-cart" aria-hidden="true"></i> {{ $post->shop_name }}</p>
-            <p><i style="font-weight: bold;color: #000033;" class="fa fa-map-marker"></i> {{ $post->shop_location }}</p>
-            <p><i style="font-weight: bold;color: #000033;" class="fa fa-usd" aria-hidden="true"></i> {{ $post->price }}/-</p>
-            <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> {{ $post->rating }}/10</p>
-          </div>
-          {{-- post image and the 200 words description --}}
-          <div class="col-md-6">
-            <img src="{{ asset('images/food-images/slider/' . $post->postImages->first()->image) }}" alt="" width="100%">
-            <p>{{ (strlen($post->post) > 200) ? substr($post->post, 0, 200) : $post->post }}<a href="{{ route('posts.show', $post->id) }}" target="_blank"> see more...</a></p>
+        <div id="reviewPost{{$post->id}}">
+          <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
+          <div class="row">
+            {{-- info of posts with icon --}}
+            <div class="col-md-3" class="post-icon-container">
+              <p><i style="font-weight: bold;color: #000033;" class="fa fa-shopping-cart" aria-hidden="true"></i> {{ $post->shop_name }}</p>
+              <p><i style="font-weight: bold;color: #000033;" class="fa fa-map-marker"></i> {{ $post->shop_location }}</p>
+              <p><i style="font-weight: bold;color: #000033;" class="fa fa-usd" aria-hidden="true"></i> {{ $post->price }}/-</p>
+              <p><i style="font-weight: bold;color: #000033;" class="fa fa-star" aria-hidden="true"></i> {{ $post->rating }}/10</p>
+            </div>
+            {{-- post image and the 200 words description --}}
+            <div class="col-md-6">
+              <img src="{{ asset('images/food-images/slider/' . $post->postImages->first()->image) }}" alt="" width="100%">
+              <p>{{ (strlen($post->post) > 200) ? substr($post->post, 0, 200) : $post->post }}<a href="{{ route('posts.show', $post->id) }}" target="_blank"> see more...</a></p>
+            </div>
           </div>
         </div>
         {{-- Buttons under post --}}
@@ -24,10 +26,11 @@
             @if (count($post->comments) > 1)
             <a id="toggleCommentBtn{{ $post->id }}" href="" onclick="toggleComments(event, {{ $post->id }});">view previous comments</a>
             @endif
-            <button class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
+            <a href="" onclick="showEditReviewModal(event, {{$post->id}})">Edit</a>
             <a href="#">Delete</a>
           </span>
         </p>
+
         {{-- Comments --}}
         @if (count($post->comments) > 0)
         {{-- Comments --}}
@@ -83,6 +86,9 @@
     </div><hr> {{-- media for post --}}
   @endforeach {{-- loop for all posts --}}
 </div>
+
+{{-- Edit Review Modal --}}
+@includeif('partials._edit-review')
 
 {{-- Store comment AJAX request --}}
 @push('scripts')

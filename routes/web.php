@@ -25,7 +25,14 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // Posts routes...
-Route::resource('posts', 'PostController');
+Route::resource('posts', 'PostController', [
+  'except' => [
+    'edit',
+    'update'
+  ]
+]);
+Route::post('post/update', 'PostController@update')->name('posts.update');
+Route::get('post/edit/{id}', 'PostController@edit')->name('posts.edit');
 
 // Comments Routes...
 Route::resource('comments', 'CommentController');

@@ -138,7 +138,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        return $post;
     }
 
     /**
@@ -148,9 +149,39 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        // $files = $request->file('files');
         //
+        $id = $request->postId;
+
+        $post = Post::find($id);
+        $post->subcategory_id = $request->subcategory;
+        $post->category_id = $request->category;
+        $post->item = $request->item;
+        $post->shop_name = $request->shop;
+        $post->shop_location = $request->location;
+        $post->price = $request->price;
+        $post->rating = $request->rating;
+        $post->post = $request->comment;
+        $post->save();
+
+        // storing images under that post...
+        // if(!empty($files)) {
+        //     foreach($files as $file) {
+        //         $image = $file;
+        //         $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+        //         $location = public_path('images/food-images/slider/' . $filename);
+        //         Image::make($image)->resize(1366, 600)->save($location);
+        //         $postImage = new PostImage;
+        //         $postImage->post_id = $id;
+        //         $postImage->image = $filename;
+        //         $postImage->save();
+        //     }
+        // }
+
+        return "success";
+
     }
 
     /**
