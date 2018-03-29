@@ -37,4 +37,7 @@ Route::get('post/edit/{id}', 'PostController@edit')->name('posts.edit');
 Route::get('post/delete/{post}', 'PostController@destroy')->name('posts.destroy');
 
 // Comments Routes...
-Route::resource('comments', 'CommentController');
+Route::resource('comments', 'CommentController', ['except' => [
+  'destroy'
+]]);
+Route::get('comments/delete/{comment}', 'CommentController@destroy')->name('comments.destroy');

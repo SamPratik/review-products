@@ -59,7 +59,7 @@
                 @if (Auth::user()->id == $comment->user->id)
                 <p style="margin:0px;">
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
-                  <a href="#">Delete</a>
+                  <a href="#" onclick="deleteComment(event, {{$comment->id}})">Delete</a>
                 </p>
                 @endif
               </div> {{-- media body for last comment --}}
@@ -78,7 +78,7 @@
                 @if (Auth::user()->id == $comment->user->id)
                 <p style="margin:0px;">
                   <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
-                  <a href="#">Delete</a>
+                  <a href="#" onclick="deleteComment(event, {{$comment->id}}, {{$post->id}})">Delete</a>
                 </p>
                 @else
                 <br><br>
@@ -128,7 +128,7 @@
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
-            $("#postWithComments").load(location.href + " #postWithComments"+postId);
+            $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
             document.getElementById("commentFormId" + postId).reset();
             var x = document.getElementById("snackbar");
             x.innerHTML = "You have commented successfully!";
@@ -190,6 +190,35 @@
             }
           }
         });
+      }
+    }
+  </script>
+@endpush
+
+{{-- Comment Delete AJAX request --}}
+@push('scripts')
+  <script>
+    function deleteComment(e, commentId, postId) {
+      e.preventDefault();
+      // console.log(commentId);
+      var c = confirm('Are you sure you want to delete this comment?');
+      if(c == true) {
+        $.ajax({
+          url: 'comments/delete/'+commentId,
+          type: 'GET',
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            console.log(data);
+            if(data === "success") {
+              $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
+              var x = document.getElementById("snackbar");
+              x.innerHTML = "Comment is successfully deleted!";
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+          }
+        })
       }
     }
   </script>
