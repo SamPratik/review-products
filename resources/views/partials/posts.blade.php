@@ -26,7 +26,7 @@
             @if (count($post->comments) > 1)
             <a id="toggleCommentBtn{{ $post->id }}" href="" onclick="toggleComments(event, {{ $post->id }});">view previous comments</a>
             @endif
-            <a href="" onclick="showEditReviewModal(event, {{$post->id}})">Edit</a>
+            <a style="margin:0px 10px;" href="" onclick="showEditReviewModal(event, {{$post->id}})">Edit</a>
             <a href="#">Delete</a>
           </span>
         </p>

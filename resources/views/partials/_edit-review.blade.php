@@ -60,7 +60,7 @@
             <p class="error-message"></p>
           </div>
           <div class="form-group">
-            <label for="">Post</label>
+            <label for="">Comment</label>
             <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
             <p class="error-message"></p>
           </div>
@@ -77,6 +77,7 @@
 {{-- Showing edit review modal and update review AJAX request --}}
 @push('scripts')
   <script>
+    // prepopulating edit review modal...
     function showEditReviewModal(e, postId) {
       e.preventDefault();
       $("#editReviewModal").modal('show');
@@ -87,6 +88,7 @@
         processData: false,
         success: function(data) {
           console.log(data);
+          $("#postId").val(postId);
           $("#cat").val(data.category_id);
           $("#subCat").val(data.subcategory_id);
           $("#item").val(data.item);
@@ -99,9 +101,11 @@
       });
     }
 
+    // update ajax request to PostController...
     function updateReview() {
       var form = document.getElementById('editReviewForm');
       var fd = new FormData(form);
+      var postId = $("#postId").val();
       $.ajax({
         url: '{{ route('posts.update') }}',
         type: 'POST',
@@ -110,6 +114,13 @@
         processData: false,
         success: function(data) {
           console.log(data);
+          var em = document.getElementsByClassName("error-message");
+
+          // after returning from the controller we are clearing the
+          // previous error messages...
+          for(i=0; i<em.length; i++) {
+            em[i].innerHTML = '';
+          }
 
           // if review is stored in database successfully, then show the
           // success toast...
@@ -120,6 +131,38 @@
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             $("#editReviewModal").modal('hide');
+            $("#reviewPost"+postId).load(location.href + " #reviewPost"+postId);
+          }
+
+          // Showing error messages in the HTML...
+          if(typeof data.error != 'undefined') {
+            if(typeof data.files != 'undefined') {
+              em[0].innerHTML = data.files[0];
+            }
+            if(typeof data.category != 'undefined') {
+              em[1].innerHTML = data.category[0];
+            }
+            if(typeof data.subcategory != 'undefined') {
+              em[2].innerHTML = data.subcategory[0];
+            }
+            if(typeof data.item != 'undefined') {
+              em[3].innerHTML = data.item[0];
+            }
+            if(typeof data.shop != 'undefined') {
+              em[4].innerHTML = data.shop[0];
+            }
+            if(typeof data.location != 'undefined') {
+              em[5].innerHTML = data.location[0];
+            }
+            if(typeof data.price != 'undefined') {
+              em[6].innerHTML = data.price[0];
+            }
+            if(typeof data.rating != 'undefined') {
+              em[7].innerHTML = data.rating[0];
+            }
+            if(typeof data.comment != 'undefined') {
+              em[8].innerHTML = data.comment[0];
+            }
           }
         }
       });

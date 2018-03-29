@@ -151,8 +151,58 @@ class PostController extends Controller
      */
     public function update(Request $request)
     {
-        // $files = $request->file('files');
-        //
+        $files = $request->file('files');
+        $fileExtErr = 'no_error';
+        $allowedExts = array('jpg', 'png', 'jpeg');
+        $rating = true;
+        // Validation rules...
+        $rules = [
+            'category' => 'required',
+            'subcategory' => 'required',
+            'item' => 'required',
+            'shop' => 'required',
+            'location' => 'required',
+            'price' => 'required',
+            'rating' => 'required',
+            'comment' => 'required'
+        ];
+
+        // Creting validator instance...
+        $validator = Validator::make($request->all(), $rules);
+
+        // if validation fails for file extension then set $fileExtErr
+        // to true...
+        if(!empty($files)) {
+            foreach($files as $file) {
+                $ext = $file->getClientOriginalExtension();
+                if(!in_array($ext, $allowedExts)) {
+                    $fileExtErr = 'error';
+                    break;
+                }
+            }
+        }
+
+        // if validation fails for rating then set $rating to false...
+        if($request->rating > 10 || $request->rating < 0) {
+            $rating = false;
+        }
+        // If validation fails or validation fails only for rating fields
+        // return error messages...
+        // we can only add fields to $validator->errors() in this block...
+        if($validator->fails() || $rating == false || $fileExtErr == 'error') {
+            // adding an extra field 'error'...
+            $validator->errors()->add('error', 'true');
+            // for any validation fail rating validation fail message
+            // should not be sent...
+            if($rating == false) {
+                $validator->errors()->add('rating', 'rating must be between 0 & 10');
+            }
+            if($fileExtErr == 'error') {
+                $validator->errors()->add('files', 'uploaded files must be jpg/jpeg/png files');
+            }
+            return response()->json($validator->errors());
+        }
+
         $id = $request->postId;
 
         $post = Post::find($id);
@@ -167,18 +217,29 @@ class PostController extends Controller
         $post->save();
 
         // storing images under that post...
-        // if(!empty($files)) {
-        //     foreach($files as $file) {
-        //         $image = $file;
-        //         $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-        //         $location = public_path('images/food-images/slider/' . $filename);
-        //         Image::make($image)->resize(1366, 600)->save($location);
-        //         $postImage = new PostImage;
-        //         $postImage->post_id = $id;
-        //         $postImage->image = $filename;
-        //         $postImage->save();
-        //     }
-        // }
+        if(!empty($files)) {
+            $postImages = PostImage::where('post_id', $id)->get();
+
+            // removing previous images from public folder under this post...
+            foreach($postImages as $postImage) {
+                $imagePath = public_path() . '/images/food-images/slider/' . $postImage->image;
+                unlink($imagePath);
+            }
+
+            // deleting previous images from database under this post...
+            $deletePrePostImages = PostImage::where('post_id', $id)->delete();
+
+            foreach($files as $file) {
+                $image = $file;
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                $location = public_path('images/food-images/slider/' . $filename);
+                Image::make($image)->resize(1366, 600)->save($location);
+                $postImage = new PostImage;
+                $postImage->post_id = $id;
+                $postImage->image = $filename;
+                $postImage->save();
+            }
+        }
 
         return "success";
 
