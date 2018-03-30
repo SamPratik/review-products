@@ -34,27 +34,3 @@
 
 {{-- Add Review Modal --}}
 @includeif('partials.home._add-review')
-
-{{-- Edit Comment Modal --}}
-<div class="modal fade" id="editCommentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="" action="index.html" method="post">
-          <div class="form-group">
-            <textarea class="form-control" name="name" rows="3" placeholder="You comment"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Update</button>
-      </div>
-    </div>
-  </div>
-</div>

@@ -38,6 +38,8 @@ Route::get('post/delete/{post}', 'PostController@destroy')->name('posts.destroy'
 
 // Comments Routes...
 Route::resource('comments', 'CommentController', ['except' => [
-  'destroy'
+  'destroy',
+  'update'
 ]]);
 Route::get('comments/delete/{comment}', 'CommentController@destroy')->name('comments.destroy');
+Route::post('comments/update', 'CommentController@update')->name('comments.update');

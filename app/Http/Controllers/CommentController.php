@@ -76,7 +76,8 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::find($id);
+        return $comment;
     }
 
     /**
@@ -86,9 +87,13 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->commentId;
+        $comment = Comment::find($id);
+        $comment->comment = $request->comment;
+        $comment->save();
+        return "success";
     }
 
     /**

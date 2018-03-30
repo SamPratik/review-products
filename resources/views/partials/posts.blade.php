@@ -49,7 +49,7 @@
         <div id="togglableComments{{ $post->id }}" class="togglable-comments">
         @foreach ($post->comments as $comment)
             @if (!$loop->last)
-            <div class="media mt-3">
+            <div class="media mt-3" id="comment{{$comment->id}}">
               <a class="pr-3" href="#">
                 <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $comment->user->image) }}" alt="Profile Pic">
               </a>
@@ -58,7 +58,7 @@
                 {{ $comment->comment }}
                 @if (Auth::user()->id == $comment->user->id)
                 <p style="margin:0px;">
-                  <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                  <a style="margin-right:10px;" href="#" onclick="showCommentEditModal(event, {{$comment->id}})">Edit</a>
                   <a href="#" onclick="deleteComment(event, {{$comment->id}})">Delete</a>
                 </p>
                 @endif
@@ -68,7 +68,7 @@
           {{-- last visible comment --}}
           @if ($loop->last)
           </div> {{-- toggable comments div --}}
-            <div class="media mt-3">
+            <div class="media mt-3" id="lastComment{{$comment->id}}">
               <a class="pr-3" href="#">
                 <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $comment->user->image) }}" alt="Profile Pic">
               </a>
@@ -77,9 +77,10 @@
                 {{ $comment->comment }}
                 @if (Auth::user()->id == $comment->user->id)
                 <p style="margin:0px;">
-                  <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCommentModal">Edit</button>
+                  <a href="#" onclick="showCommentEditModal(event, {{$comment->id}})" style="margin-right:10px;">Edit</a>
                   <a href="#" onclick="deleteComment(event, {{$comment->id}}, {{$post->id}})">Delete</a>
                 </p>
+                <br>
                 @else
                 <br><br>
                 @endif
@@ -99,8 +100,11 @@
   @endforeach {{-- loop for all posts --}}
 </div>
 
-{{-- Edit Review Modal --}}
+{{-- Edit Review Modal & functionality --}}
 @includeif('partials._edit-review')
+
+{{-- Edit Comment Modal & functionality --}}
+@includeif('partials._edit-comment')
 
 {{-- Store comment AJAX request --}}
 @push('scripts')
