@@ -88,8 +88,9 @@
     function showEditReviewModal(e, postId) {
       e.preventDefault();
       $("#editReviewModal").modal('show');
+
       $.ajax({
-        url: 'post/edit/'+postId,
+        url: '/review-products/public/post/edit/' + postId,
         type: 'GET',
         contentType: false,
         processData: false,

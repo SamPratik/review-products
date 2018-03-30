@@ -33,7 +33,7 @@
       $("#editCommentModal").modal('show');
       {{-- prepopulate edit comment form --}}
       $.ajax({
-        url: 'comments/' + commentId + '/edit',
+        url: '/review-products/public/comments/' + commentId + '/edit',
         type: 'GET',
         contentType: false,
         processData: false,
@@ -56,7 +56,7 @@
       var commentId = fd.get('commentId');
       // console.log(fd);
       $.ajax({
-        url: 'comments/update',
+        url: '{{ route('comments.update') }}',
         type: 'POST',
         data: fd,
         contentType: false,

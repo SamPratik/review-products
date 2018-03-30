@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Post as Post;
 use App\User as User;
+use App\Shop as Shop;
 use App\SubCategory as SubCategory;
 use Auth;
 use Session;
@@ -19,22 +20,25 @@ class PageController extends Controller
     }
 
     public function home() {
+      $shops = Post::select('shop_name')->distinct()->get();
       $posts = Post::latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('home', ['posts' => $posts, 'foods' => $foods]);
+      return view('home', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops]);
     }
 
     public function profile() {
+      $shops = Post::select('shop_name')->distinct()->get();
       $id = Auth::user()->id;
       $posts = Post::where('user_id', $id)->latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('profile', ['posts' => $posts, 'foods' => $foods]);
+      return view('profile', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops]);
     }
 
     public function profileEdit($id) {
+       $shops = Post::select('shop_name')->distinct()->get();
        $user = User::find($id);
        $foods = SubCategory::where('category_id', 1)->get();
-       return view('profile-edit', ['user' => $user, 'foods' => $foods]);
+       return view('profile-edit', ['user' => $user, 'foods' => $foods, 'shops' => $shops]);
     }
 
     public function profileUpdate(Request $request, $id) {
@@ -79,13 +83,15 @@ class PageController extends Controller
     }
 
     public function food($food) {
+      $shops = Post::select('shop_name')->distinct()->get();
       $posts = Post::where('subcategory_id', $food)->latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('food', ['posts' => $posts, 'foods' => $foods]);
+      return view('food', ['foods' => $foods, 'posts' => $posts, 'shops' => $shops]);
     }
 
     public function electronics($electronics) {
+        $shops = Post::select('shop_name')->distinct()->get();
         $foods = SubCategory::where('category_id', 1)->get();
-        return view('electronics', ['foods' => $foods]);
+        return view('electronics', ['foods' => $foods, 'shops' => $shops]);
     }
 }

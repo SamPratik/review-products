@@ -17,54 +17,14 @@
           </div>
         </form>
         <div class="list-group">
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">Takeout</h5>
-            </div>
-            <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> Sector - 11, Sonargaon Janapath Road, Uttara</p>
-          </a>
+          @foreach ($shops as $shop)
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{$shop->shop_name}}</h5>
+              </div>
+              {{-- <p class="mb-1"><strong><i class="fa fa-map-marker"></i></strong> {{$shop->shop_location}}</p> --}}
+            </a>
+          @endforeach
         </div>
       </div>
     </div>
