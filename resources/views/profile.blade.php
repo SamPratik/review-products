@@ -11,7 +11,6 @@
       color: red;
     }
   </style>
-  {{ Html::style('css/toast.css') }}
 @endpush
 
 @section('navbar')
@@ -19,9 +18,6 @@
 @endsection
 
 @section('content')
-  {{-- Success alert --}}
-  @includeif('partials.toast')
-
   <div class="profile-info-review-container" style="padding:50px 0px;">
     <div class="container">
       <div class="row">

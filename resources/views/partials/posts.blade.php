@@ -1,14 +1,14 @@
 @push('scripts')
   <style media="screen">
-    .show {
-      display: block;
-    }
-
     .togglable-comments {
       display: none;
     }
   </style>
+  {{ Html::style('css/toast.css') }}
 @endpush
+
+{{-- Success alert --}}
+@includeif('partials.toast')
 
 <div id="allPostsContainer">
   @foreach ($posts as $post)

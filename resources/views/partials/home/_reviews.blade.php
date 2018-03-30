@@ -1,5 +1,4 @@
 @push('styles')
-  {{ Html::style('css/toast.css') }}
   <style media="screen">
     .error-message-comment {
       color: red;
@@ -28,9 +27,6 @@
     </div>
   </div>
 </div>
-
-{{-- Success alert --}}
-@includeif('partials.toast')
 
 {{-- Add Review Modal --}}
 @includeif('partials.home._add-review')

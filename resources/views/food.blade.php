@@ -8,7 +8,6 @@
       display: none;
     }
   </style>
-  {{ Html::style('css/toast.css') }}
 @endpush
 
 
@@ -17,9 +16,6 @@
 @endsection
 
 @section('content')
-  {{-- Success alert --}}
-  @includeif('partials.toast')
-
   <div class="all-reviews-container" style="padding:50px 0px;">
     <div class="container">
       <div class="row">
