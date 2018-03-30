@@ -59,7 +59,7 @@
                 @if (Auth::user()->id == $comment->user->id)
                 <p style="margin:0px;">
                   <a style="margin-right:10px;" href="#" onclick="showCommentEditModal(event, {{$comment->id}})">Edit</a>
-                  <a href="#" onclick="deleteComment(event, {{$comment->id}})">Delete</a>
+                  <a href="#" onclick="deleteComment(event, {{$comment->id}}, {{$post->id}})">Delete</a>
                 </p>
                 @endif
               </div> {{-- media body for last comment --}}
@@ -204,7 +204,7 @@
   <script>
     function deleteComment(e, commentId, postId) {
       e.preventDefault();
-      // console.log(commentId);
+      console.log(commentId + ' ' + postId);
       var c = confirm('Are you sure you want to delete this comment?');
       if(c == true) {
         $.ajax({
@@ -215,14 +215,16 @@
           success: function(data) {
             console.log(data);
             if(data === "success") {
-              $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
+              // $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
+              $("#comment"+commentId).load(location.href + " #comment"+commentId);
+              $("#lastComment"+commentId).load(location.href + " #lastComment"+commentId);
               var x = document.getElementById("snackbar");
               x.innerHTML = "Comment is successfully deleted!";
               x.className = "show";
               setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             }
           }
-        })
+        });
       }
     }
   </script>
