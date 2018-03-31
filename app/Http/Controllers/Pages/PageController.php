@@ -94,4 +94,15 @@ class PageController extends Controller
         $foods = SubCategory::where('category_id', 1)->get();
         return view('electronics', ['foods' => $foods, 'shops' => $shops]);
     }
+
+    public function shopSearch(Request $request) {
+      $searchItem = $request->searchItem;
+      $posts = Post::select('shop_name')
+                ->when($searchItem, function ($query) use ($searchItem) {
+                    return $query->where('shop_name', 'like', '%' . $searchItem . '%');
+                })
+                ->distinct()
+                ->get();
+      return $posts;
+    }
 }

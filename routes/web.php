@@ -43,3 +43,6 @@ Route::resource('comments', 'CommentController', ['except' => [
 ]]);
 Route::get('comments/delete/{comment}', 'CommentController@destroy')->name('comments.destroy');
 Route::post('comments/update', 'CommentController@update')->name('comments.update');
+
+// Shop search routes...
+Route::post('shop/search', 'Pages\PageController@shopSearch')->name('shops.search');
