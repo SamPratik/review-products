@@ -131,7 +131,8 @@ class PostController extends Controller
         $shops = Post::select('shop_name')->distinct()->get();
         $post = Post::find($id);
         $foods = SubCategory::where('category_id', 1)->get();
-        return view('posts.show', ['post' => $post, 'foods' => $foods, 'shops' => $shops]);
+        $electronics = SubCategory::where('category_id', 2)->get();
+        return view('posts.show', ['post' => $post, 'foods' => $foods, 'shops' => $shops, 'electronics' => $electronics]);
     }
 
     /**

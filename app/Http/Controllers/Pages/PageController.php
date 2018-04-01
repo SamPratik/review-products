@@ -25,7 +25,8 @@ class PageController extends Controller
       $shops = Post::select('shop_name')->distinct()->get();
       $posts = Post::latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('home', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops, 'topFivePosts' => $topFivePosts]);
+      $electronics = SubCategory::where('category_id', 2)->get();
+      return view('home', ['posts' => $posts, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops, 'topFivePosts' => $topFivePosts]);
     }
 
     public function profile() {
@@ -33,19 +34,22 @@ class PageController extends Controller
       $id = Auth::user()->id;
       $posts = Post::where('user_id', $id)->latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('profile', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops]);
+      $electronics = SubCategory::where('category_id', 2)->get();
+      return view('profile', ['posts' => $posts, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops]);
     }
 
     public function profileEdit($id) {
        $shops = Post::select('shop_name')->distinct()->get();
        $user = User::find($id);
        $foods = SubCategory::where('category_id', 1)->get();
-       return view('profile-edit', ['user' => $user, 'foods' => $foods, 'shops' => $shops]);
+       $electronics = SubCategory::where('category_id', 2)->get();
+       return view('profile-edit', ['user' => $user, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops]);
     }
 
     public function profileUpdate(Request $request, $id) {
         $user = User::find($id);
         $foods = SubCategory::where('category_id', 1)->get();
+        $electronics = SubCategory::where('category_id', 2)->get();
 
         $this->validate($request, [
             'image' => 'mimes:jpg,jpeg,png',
@@ -88,13 +92,16 @@ class PageController extends Controller
       $shops = Post::select('shop_name')->distinct()->get();
       $posts = Post::where('subcategory_id', $food)->latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('food', ['foods' => $foods, 'posts' => $posts, 'shops' => $shops]);
+      $electronics = SubCategory::where('category_id', 2)->get();
+      return view('food', ['foods' => $foods, 'posts' => $posts, 'shops' => $shops, 'electronics' => $electronics]);
     }
 
     public function electronics($electronics) {
         $shops = Post::select('shop_name')->distinct()->get();
+        $posts = Post::where('subcategory_id', $electronics)->latest()->get();
         $foods = SubCategory::where('category_id', 1)->get();
-        return view('electronics', ['foods' => $foods, 'shops' => $shops]);
+        $electronics = SubCategory::where('category_id', 2)->get();
+        return view('electronics', ['foods' => $foods, 'posts' => $posts, 'electronics' => $electronics, 'shops' => $shops]);
     }
 
     public function shopSearch(Request $request) {
@@ -113,13 +120,15 @@ class PageController extends Controller
         // Total reviews of a item...
         $items = Post::select('item', DB::raw('count(*) as items_count'))->groupBy('item')->where('shop_name', $shop)->get();
         $foods = SubCategory::where('category_id', 1)->get();
-        return view('shop', ['foods' => $foods, 'shops' => $shops, 'items' => $items, 'shop' => $shop]);
+        $electronics = SubCategory::where('category_id', 2)->get();
+        return view('shop', ['foods' => $foods, 'electronics' => $electronics, 'shops' => $shops, 'items' => $items, 'shop' => $shop]);
     }
 
     public function itemReviews($item, $shop) {
         $shops = Post::select('shop_name')->distinct()->get();
         $posts = Post::where('item', $item)->where('shop_name', $shop)->latest()->get();
         $foods = SubCategory::where('category_id', 1)->get();
-        return view('food', ['foods' => $foods, 'posts' => $posts, 'shops' => $shops]);
+        $electronics = SubCategory::where('category_id', 2)->get();
+        return view('food', ['foods' => $foods, 'electronics' => $electronics, 'posts' => $posts, 'shops' => $shops]);
     }
 }

@@ -29,9 +29,9 @@
           Electronics
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="{{ route('electronics', 'laptop') }}">Laptop</a>
-          <a class="dropdown-item" href="{{ route('electronics', 'mobile') }}">Mobile</a>
-          <a class="dropdown-item" href="{{ route('electronics', 'computer') }}">Computer</a>
+          @foreach ($electronics as $electronic)
+            <a class="dropdown-item" href="{{ route('electronics', $electronic->id) }}">{{$electronic->name}}</a>
+          @endforeach
         </div>
       </li>
       <li class="nav-item">
