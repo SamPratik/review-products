@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    @yield('meta-ajax')
     <title></title>
 
     {{-- Bootstrap 4 CSS --}}

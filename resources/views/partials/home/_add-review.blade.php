@@ -7,6 +7,10 @@
   </style>
 @endpush
 
+@section('meta-ajax')
+<meta name="_token" content="{{ csrf_token() }}" />
+@endsection
+
 {{-- Add Review Modal --}}
 <div class="modal fade" id="reviewFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -19,7 +23,7 @@
       </div>
       <div class="modal-body">
         <form id="addReviewForm" class="" enctype="multipart/form-data">
-          {{ csrf_field() }}
+          {{-- {{ csrf_field() }} --}}
           <div class="form-group">
             <label for="">Display Images</label>
             <input type="file" name="files[]" multiple>
@@ -27,7 +31,7 @@
             <p class="error-message"></p>
           </div>
           <div class="form-group">
-            <select name="category" id="cat" class="form-control form-control-sm" onchange="enableSubCat()">
+            <select name="category" id="cat" class="form-control form-control-sm" onchange="getSubCat(this.value)">
               <option selected disabled>Category</option>
               <option value="1">Food</option>
               <option value="2">Electronics</option>
@@ -37,11 +41,11 @@
           <div class="form-group">
             <select disabled name="subcategory" id="addSubCat" class="form-control form-control-sm">
               <option selected disabled>Sub category</option>
-              <option value="1">Burger</option>
-              <option value="2">Pizza</option>
+              {{-- <option value="1">Burger</option>
+              <option value="2">Pizza</option> --}}
             </select>
             <p class="error-message"></p>
-          </div>
+          {{-- </div> --}}
           <div class="form-group">
             <input name="item" type="text" class="form-control" placeholder="Item name">
             <p class="error-message"></p>
@@ -78,8 +82,43 @@
 
 @push('scripts')
   <script>
-    function enableSubCat() {
+    function getSubCat(cat_id) {
       document.getElementById('addSubCat').disabled = false;
+      var token = $("input[name='_token']").val();
+      // console.log(cat_id + ' ' + token);
+      var fd = new FormData();
+      fd.append('catId', cat_id);
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-Token': $('meta[name=_token]').attr('content')
+          }
+      });
+      $.ajax({
+        url: '{{ route('posts.getSubCat') }}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          var addSubCat = document.getElementById('addSubCat');
+          addSubCat.innerHTML = '';
+          var optionSelected = document.createElement("option");
+          optionSelected.setAttribute('selected', 'selected');
+          optionSelected.setAttribute('disabled', 'disabled');
+          optionSelectedText = document.createTextNode('Sub category');
+          optionSelected.appendChild(optionSelectedText);
+          addSubCat.appendChild(optionSelected);
+
+          for (let i = 0; i < data.length; i++) {
+            // console.log(data[i].name);
+            var option = document.createElement("option");
+            option.setAttribute('value', data[i].id);
+            var optionText = document.createTextNode(data[i].name);
+            option.appendChild(optionText);
+            addSubCat.appendChild(option);
+          }
+        }
+      });
     }
 
     function addReview() {

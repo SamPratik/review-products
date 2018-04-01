@@ -271,4 +271,11 @@ class PostController extends Controller
 
         return "success";
     }
+
+
+    public function getSubCat(Request $request) {
+        $catId = $request->catId;
+        $subCategories = SubCategory::where('category_id', $catId)->get();
+        return $subCategories;
+    }
 }

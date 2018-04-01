@@ -35,6 +35,7 @@ Route::resource('posts', 'PostController', [
 Route::post('post/update', 'PostController@update')->name('posts.update');
 Route::get('post/edit/{id}', 'PostController@edit')->name('posts.edit');
 Route::get('post/delete/{post}', 'PostController@destroy')->name('posts.destroy');
+Route::post('post/subcategories', 'PostController@getSubCat')->name('posts.getSubCat');
 
 // Comments Routes...
 Route::resource('comments', 'CommentController', ['except' => [
