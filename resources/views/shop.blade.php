@@ -23,7 +23,7 @@
               $row = mysqli_fetch_assoc($result);
             @endphp
             <h4>Positive Review: {{ round(($row['items_count']/$items[$i]->items_count)*100, 2) }}%</h4>
-            <p><a href="{{route('items.review', $items[$i]->item)}}" target="_blank" style="color:#fff;" class="btn btn-primary">All Reviews</a></p>
+            <p><a href="{{route('items.review', [$items[$i]->item, $shop])}}" target="_blank" style="color:#fff;" class="btn btn-primary">All Reviews</a></p>
           </li>
         @endfor
       </ul>

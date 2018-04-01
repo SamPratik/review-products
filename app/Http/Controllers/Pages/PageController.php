@@ -115,7 +115,10 @@ class PageController extends Controller
         return view('shop', ['foods' => $foods, 'shops' => $shops, 'items' => $items, 'shop' => $shop]);
     }
 
-    public function itemReviews($item) {
-        dd($item);
+    public function itemReviews($item, $shop) {
+        $shops = Post::select('shop_name')->distinct()->get();
+        $posts = Post::where('item', $item)->where('shop_name', $shop)->latest()->get();
+        $foods = SubCategory::where('category_id', 1)->get();
+        return view('food', ['foods' => $foods, 'posts' => $posts, 'shops' => $shops]);
     }
 }

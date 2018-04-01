@@ -47,4 +47,4 @@ Route::post('comments/update', 'CommentController@update')->name('comments.updat
 // Shop search routes...
 Route::post('shop/search', 'Pages\PageController@shopSearch')->name('shops.search');
 Route::get('shop/{shop}', 'Pages\PageController@shopIndex')->name('shops.index');
-Route::get('items/reviews/{item}', 'Pages\PageController@itemReviews')->name('items.review');
+Route::get('items/reviews/{item}/{shop}', 'Pages\PageController@itemReviews')->name('items.review');
