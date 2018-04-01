@@ -21,10 +21,11 @@ class PageController extends Controller
     }
 
     public function home() {
+      $topFivePosts = Post::select(DB::raw('round(avg(rating), 2) as avg_rating'), 'item')->groupBy('item')->orderBy('avg_rating', 'DESC')->limit(5)->get();
       $shops = Post::select('shop_name')->distinct()->get();
       $posts = Post::latest()->get();
       $foods = SubCategory::where('category_id', 1)->get();
-      return view('home', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops]);
+      return view('home', ['posts' => $posts, 'foods' => $foods, 'shops' => $shops, 'topFivePosts' => $topFivePosts]);
     }
 
     public function profile() {

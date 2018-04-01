@@ -4,33 +4,24 @@
         <img style="margin-top:-19px;position:relative;top:50%;width:38px;height:38px;" src="img/spin.svg" />
     </div>
     <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:380px;overflow:hidden;">
-        <div data-p="170.00">
-            <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" />
-            <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
-              <h2>Chicken Cheese Delight</h2>
-              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i> 7.8/10</p>
-              <p>Price: 270/-</p>
-              <p>Location: sector-11, Uttara, Dhaka</p>
+        @foreach ($topFivePosts as $topFivePost)
+            <div data-p="170.00">
+                <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_burger.jpg') }}" />
+                <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
+                  <h2>{{ $topFivePost->item }}</h2>
+                  <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i> {{ $topFivePost->avg_rating }}/10</p>
+                  {{-- showing latest price and location --}}
+                  @php
+                      $connection = mysqli_connect("localhost", "root", "", "review_products");
+                      $price = "SELECT price, shop_location FROM posts WHERE item='{$topFivePost->item}' ORDER BY id DESC LIMIT 1";
+                      $resultPrice = mysqli_query($connection, $price);
+                      $rowPrice = mysqli_fetch_assoc($resultPrice);
+                  @endphp
+                  <p>Price: {{ $rowPrice['price'] }}/-</p>
+                  <p>Location: {{ $rowPrice['shop_location'] }}</p>
+                </div>
             </div>
-        </div>
-        <div data-p="170.00">
-            <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_pizza.jpg') }}" />
-            <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
-              <h2>Chicken Cheese Delight</h2>
-              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i>  7.8/10</p>
-              <p>Price: 270/-</p>
-              <p>Location: sector-11, Uttara, Dhaka</p>
-            </div>
-        </div>
-        <div data-p="170.00">
-            <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/rsz_thai_food.jpg') }}" />
-            <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
-              <h2>Chicken Cheese Delight</h2>
-              <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i>  7.8/10</p>
-              <p>Price: 270/-</p>
-              <p>Location: sector-11, Uttara, Dhaka</p>
-            </div>
-        </div>
+        @endforeach
     </div>
     <!-- Bullet Navigator -->
     <div data-u="navigator" class="jssorb052" style="position:absolute;bottom:12px;right:12px;" data-autocenter="1" data-scale="0.5" data-scale-bottom="0.75">
