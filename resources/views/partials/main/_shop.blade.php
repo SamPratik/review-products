@@ -19,7 +19,7 @@
         </form>
         <div id="shopList" class="list-group">
           @foreach ($shops as $shop)
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="{{ route('shops.index', $shop->shop_name) }}" class="list-group-item list-group-item-action flex-column align-items-start">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{$shop->shop_name}}</h5>
               </div>
@@ -52,7 +52,7 @@
           // creating anchor element...
           var anchor = document.createElement("a");
           anchor.setAttribute('class', 'list-group-item list-group-item-action flex-column align-items-start');
-          anchor.setAttribute('href', '#');
+          anchor.setAttribute('href', '/review-products/public/shop/'+data[i].shop_name);
           // creating div element...
           var div = document.createElement("div");
           div.setAttribute('class', 'd-flex w-100 justify-content-between');

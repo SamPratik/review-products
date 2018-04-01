@@ -8,6 +8,7 @@ use App\Post as Post;
 use App\User as User;
 use App\Shop as Shop;
 use App\SubCategory as SubCategory;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use Session;
 use Image;
@@ -104,5 +105,17 @@ class PageController extends Controller
                 ->distinct()
                 ->get();
       return $posts;
+    }
+
+    public function shopIndex($shop) {
+        $shops = Post::select('shop_name')->distinct()->get();
+        // Total reviews of a item...
+        $items = Post::select('item', DB::raw('count(*) as items_count'))->groupBy('item')->where('shop_name', $shop)->get();
+        $foods = SubCategory::where('category_id', 1)->get();
+        return view('shop', ['foods' => $foods, 'shops' => $shops, 'items' => $items, 'shop' => $shop]);
+    }
+
+    public function itemReviews($item) {
+        dd($item);
     }
 }
