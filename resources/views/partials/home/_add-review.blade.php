@@ -23,7 +23,7 @@
       </div>
       <div class="modal-body">
         <form id="addReviewForm" class="" enctype="multipart/form-data">
-          {{-- {{ csrf_field() }} --}}
+          {{ csrf_field() }}
           <div class="form-group">
             <label for="">Display Images</label>
             <input type="file" name="files[]" multiple>
@@ -45,7 +45,7 @@
               <option value="2">Pizza</option> --}}
             </select>
             <p class="error-message"></p>
-          {{-- </div> --}}
+          </div>
           <div class="form-group">
             <input name="item" type="text" class="form-control" placeholder="Item name">
             <p class="error-message"></p>
@@ -108,7 +108,6 @@
           optionSelectedText = document.createTextNode('Sub category');
           optionSelected.appendChild(optionSelectedText);
           addSubCat.appendChild(optionSelected);
-
           for (let i = 0; i < data.length; i++) {
             // console.log(data[i].name);
             var option = document.createElement("option");
@@ -120,11 +119,14 @@
         }
       });
     }
-
     function addReview() {
       var form = document.getElementById('addReviewForm');
       var fd = new FormData(form);
-
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-Token': $('meta[name=_token]').attr('content')
+          }
+      });
       $.ajax({
         url: '{{ route('posts.store') }}',
         type: 'POST',
@@ -135,13 +137,11 @@
           // showing the response came from the laravel controller...
           console.log(data);
           var em = document.getElementsByClassName("error-message");
-
           // after returning from the controller we are clearing the
           // previous error messages...
           for(i=0; i<em.length; i++) {
             em[i].innerHTML = '';
           }
-
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
@@ -153,7 +153,6 @@
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
             $("#reviewFormModal").modal('hide');
           }
-
           // Showing error messages in the HTML...
           if(typeof data.error != 'undefined') {
             if(typeof data.files != 'undefined') {
