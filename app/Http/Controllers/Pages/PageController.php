@@ -20,10 +20,17 @@ class PageController extends Controller
       $this->middleware('auth');
     }
 
-    public function home() {
+    public function home($location) {
       $topFivePosts = Post::select(DB::raw('round(avg(rating), 2) as avg_rating'), 'item')->groupBy('item')->orderBy('avg_rating', 'DESC')->limit(5)->get();
       $shops = Post::select('shop_name')->distinct()->get();
-      $posts = Post::latest()->get();
+      if($location == 'all') {
+          $posts = Post::latest()->get();
+      } else {
+          $posts = Post::where('shop_location', 'like', '%' . $location . '%')
+                          ->latest()
+                          ->get();
+      }
+
       $foods = SubCategory::where('category_id', 1)->get();
       $electronics = SubCategory::where('category_id', 2)->get();
       return view('home', ['posts' => $posts, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops, 'topFivePosts' => $topFivePosts]);

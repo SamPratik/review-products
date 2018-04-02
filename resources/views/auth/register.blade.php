@@ -74,10 +74,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Location</label>
+                            <label for="password-confirm" class="col-md-4 control-label">Area</label>
 
                             <div class="col-md-6">
-                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') }}" required>
+                                <input id="location" type="text" class="form-control" name="location" value="{{ old('location') }}" placeholder="eg: uttara, dhanmondi, banani, gulshan" required>
                                 @if ($errors->has('location'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('location') }}</strong>

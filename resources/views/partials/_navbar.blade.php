@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav nav-links-container">
       <li class="nav-item active">
-        <a class="nav-link @yield('HomeActive')" href="{{ route('home') }}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link @yield('HomeActive')" href="{{ route('home', 'all') }}">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link @yield('ProfileActive')" href="{{ route('profile') }}">Profile</a>
