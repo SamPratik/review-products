@@ -1,6 +1,6 @@
 @push('styles')
   <style media="screen">
-    .error-message {
+    .error-message-edit-review {
       color: red;
       font-weight: bold;
     }
@@ -11,8 +11,7 @@
   <meta name="_token" content="{{ csrf_token() }}" />
 @endsection
 
-{{-- Add Review Modal --}}
-<div class="modal fade" id="reviewFormModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="editReviewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -22,68 +21,75 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="addReviewForm" class="" enctype="multipart/form-data">
+        <form id="editReviewForm" class="" method="post">
           {{ csrf_field() }}
+          <input type="hidden" name="postId" id="postId" value="">
           <div class="form-group">
             <label for="">Display Images</label>
             <input type="file" name="files[]" multiple>
             <p><small>[Upload 1366 X 600 images for best quality]</small></p>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <select name="category" id="cat" class="form-control form-control-sm" onchange="getSubCat(this.value)">
-              <option selected disabled>Category</option>
+            <label for="">Category</label>
+            <select name="category" id="cat" class="form-control form-control-sm" onchange="getSubCat(this.value, {{$post->subcategory_id}})">
               <option value="1">Food</option>
               <option value="2">Electronics</option>
             </select>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <select disabled name="subcategory" id="addSubCat" class="form-control form-control-sm">
-              <option selected disabled>Sub category</option>
-              {{-- <option value="1">Burger</option>
-              <option value="2">Pizza</option> --}}
+            <label for="">Sub Category</label>
+            <select name="subcategory" id="editSubCat" class="form-control form-control-sm">
             </select>
-            <p class="error-message"></p>
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <input name="item" type="text" class="form-control" placeholder="Item name">
-            <p class="error-message"></p>
+            <label for="">Item Name</label>
+            <input id="item" name="item" type="text" class="form-control" value="">
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <input name="shop" type="text" class="form-control" id="shop" placeholder="Shop name">
-            <p class="error-message"></p>
+            <label for="">Shop Name</label>
+            <input name="shop" type="text" class="form-control" id="shop" value="">
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <input name="location" id="location" type="text" class="form-control" placeholder="Location">
-            <p class="error-message"></p>
+            <label for="">Shop Location</label>
+            <input name="location" id="location" type="text" class="form-control" value="">
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <input name="price" id="price" type="number" class="form-control" placeholder="Price">
-            <p class="error-message"></p>
+            <label for="">Price</label>
+            <input name="price" id="price" type="number" class="form-control" value="">
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <input name="rating" id="rating" type="number" class="form-control" placeholder="Rating">
-            <p class="error-message"></p>
+            <label for="">Rating</label>
+            <input name="rating" id="rating" type="number" class="form-control" value="">
+            <p class="error-message-edit-review"></p>
           </div>
           <div class="form-group">
-            <textarea name="comment" id="comment" class="form-control" rows="3" placeholder="Your comment"></textarea>
-            <p class="error-message"></p>
+            <label for="">Comment</label>
+            <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+            <p class="error-message-edit-review"></p>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="addReview()">Submit</button>
+        <button type="button" class="btn btn-primary" onclick="updateReview()">Update</button>
       </div>
     </div>
   </div>
 </div>
 
+{{-- Showing edit review modal and update review AJAX request --}}
 @push('scripts')
   <script>
-    function getSubCat(cat_id) {
-      document.getElementById('addSubCat').disabled = false;
+    // enabling sub category after selecting category and showing corresponding
+    // subcategories...
+    function getSubCat(cat_id, subcat_id) {
       var token = $("input[name='_token']").val();
       // console.log(cat_id + ' ' + token);
       var fd = new FormData();
@@ -100,59 +106,85 @@
         contentType: false,
         processData: false,
         success: function(data) {
-          var addSubCat = document.getElementById('addSubCat');
-          addSubCat.innerHTML = '';
-          var optionSelected = document.createElement("option");
-          optionSelected.setAttribute('selected', 'selected');
-          optionSelected.setAttribute('disabled', 'disabled');
-          optionSelectedText = document.createTextNode('Sub category');
-          optionSelected.appendChild(optionSelectedText);
-          addSubCat.appendChild(optionSelected);
+          var editSubCat = document.getElementById('editSubCat');
+          editSubCat.innerHTML = '';
           for (let i = 0; i < data.length; i++) {
-            // console.log(data[i].name);
+            // console.log(data[i].id);
             var option = document.createElement("option");
             option.setAttribute('value', data[i].id);
+            // if the sub category is the saved sub category then keep it selected...
+            if(subcat_id == data[i].id) {
+              option.setAttribute('selected', 'selected');
+            }
             var optionText = document.createTextNode(data[i].name);
             option.appendChild(optionText);
-            addSubCat.appendChild(option);
+            editSubCat.appendChild(option);
           }
         }
       });
     }
-    function addReview() {
-      var form = document.getElementById('addReviewForm');
-      var fd = new FormData(form);
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-Token': $('meta[name=_token]').attr('content')
-          }
-      });
+
+    // prepopulating edit review modal...
+    function showEditReviewModal(e, postId) {
+      e.preventDefault();
+      $("#editReviewModal").modal('show');
+
       $.ajax({
-        url: '{{ route('posts.store') }}',
+        url: '/review-products/public/post/edit/' + postId,
+        type: 'GET',
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          console.log(data);
+          $("#postId").val(postId);
+          $("#cat").val(data.category_id);
+          // $("#editSubCat").val(data.subcategory_id);
+          // $("option[value='"+data.subcategory_id+"']").setAttribute('selected', 'selected');
+          getSubCat(data.category_id, data.subcategory_id);
+          $("#item").val(data.item);
+          $("#shop").val(data.shop_name);
+          $("#location").val(data.shop_location);
+          $("#price").val(data.price);
+          $("#rating").val(data.rating);
+          $("#comment").val(data.post);
+        }
+      });
+    }
+
+    // update ajax request to PostController...
+    function updateReview() {
+      var form = document.getElementById('editReviewForm');
+      var fd = new FormData(form);
+      var postId = $("#postId").val();
+      $.ajax({
+        url: '{{ route('posts.update') }}',
         type: 'POST',
         data: fd,
         contentType: false,
         processData: false,
         success: function(data) {
-          // showing the response came from the laravel controller...
           console.log(data);
-          var em = document.getElementsByClassName("error-message");
+          var em = document.getElementsByClassName("error-message-edit-review");
+
           // after returning from the controller we are clearing the
           // previous error messages...
           for(i=0; i<em.length; i++) {
             em[i].innerHTML = '';
           }
+
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
-            $("#allPostsContainer").load(location.href + " #allPostsContainer");
-            document.getElementById("addReviewForm").reset();
+            document.getElementById("editReviewForm").reset();
             var x = document.getElementById("snackbar");
-            x.innerHTML = "review posted successfully!";
+            x.innerHTML = "review updated successfully!";
             x.className = "show";
             setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-            $("#reviewFormModal").modal('hide');
+            $("#editReviewModal").modal('hide');
+            $("#reviewPost").load(location.href + " #reviewPost");
+            $("#showCatSubCat").load(location.href + " #showCatSubCat");
           }
+
           // Showing error messages in the HTML...
           if(typeof data.error != 'undefined') {
             if(typeof data.files != 'undefined') {
@@ -186,5 +218,6 @@
         }
       });
     }
+
   </script>
 @endpush
