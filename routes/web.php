@@ -14,6 +14,9 @@
                 ######################
                     // User Routes
                 ######################
+Route::get('/', function() {
+  return redirect()->route('home', 'all');
+});
 Route::get('/{location}/home', 'Pages\PageController@home')->name('home');
 Route::get('/profile', 'Pages\PageController@profile')->name('profile');
 Route::get('/profile/edit/{id}', 'Pages\PageController@profileEdit')->name('profile.edit');

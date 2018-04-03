@@ -1,10 +1,16 @@
 @extends('main')
 
+@push('styles')
+  {{ Html::style('css/toast.css') }}
+@endpush
+
 @section('navbar')
-@includeif('partials._navbar')
+  @includeif('partials._navbar')
 @endsection
 
 @section('content')
+  {{-- Success alert --}}
+  @includeif('partials.toast')
   <div class="all-reviews-container" style="padding:70px 0px;">
     <div class="container">
       <h4 style="margin-left:-15px;"><img width="45" height="45" style="border-radius:50%;margin-right:15px;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="">{{ $post->user->name }}</h4>
@@ -65,31 +71,35 @@
               </p>
               @endif
               {{-- Comments --}}
-              @foreach ($post->comments as $comment)
-                <div class="media mt-3">
-                  <a class="pr-3" href="#">
-                    <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
-                  </a>
-                  <div class="media-body">
-                    <h5 class="mt-0">{{ $comment->user->name }}</h5>
-                    {{ $comment->comment }}
-                    @if ($post->user->id == Auth::user()->id)
-                    <p>
-                      <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
-                      <a href="#">Delete</a>
-                    </p>
-                    @endif
+              <div id="comments">
+                @foreach ($post->comments as $comment)
+                  <div class="media mt-3">
+                    <a class="pr-3" href="#">
+                      <img width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+                    </a>
+                    <div class="media-body">
+                      <h5 class="mt-0">{{ $comment->user->name }}</h5>
+                      {{ $comment->comment }}
+                      @if ($post->user->id == Auth::user()->id)
+                      <p>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
+                        <a href="#">Delete</a>
+                      </p>
+                      @endif
+                    </div>
                   </div>
-                </div>
-              @endforeach
+                @endforeach
+              </div>
               <br><br>
               {{-- Comment input box --}}
-              <form method="post">
+              <form method="post" id="commentFormId">
+                {{ csrf_field() }}
                 <div class="form-group">
-                  <textarea style="width:100%;" class="form-control" rows="4" name="" value="" placeholder="comment on this review..."></textarea>
+                  <textarea style="width:100%;" class="form-control" rows="4" name="comment" value="" placeholder="comment on this review..."></textarea>
+                  <p id="errorMessageComment" style="color:red;font-weight:bold;"></p>
                 </div>
                 <div class="form-group text-center">
-                  <input type="button" class="btn btn-primary" name="" value="Submit">
+                  <input onclick="storeComment(event, {{ $post->id }})" type="button" class="btn btn-primary" name="" value="Submit">
                 </div>
               </form>
             </div>
@@ -112,3 +122,46 @@
     </div>
   </div>
 @endsection
+
+{{-- Store comment AJAX request --}}
+@push('scripts')
+  <script>
+    function storeComment(e, postId) {
+      e.preventDefault();
+
+      var form = document.getElementById('commentFormId');
+      var fd = new FormData(form);
+      fd.append('postId', postId);
+      // console.log(fd);
+      $.ajax({
+        url: '{{ route('comments.store') }}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          // var errorMessageComment = document.getElementById('errorMessageComment' + postId);
+          console.log(data);
+          var errorMessageComment = document.getElementById('errorMessageComment');
+          errorMessageComment.innerHTML = '';
+          // if review is stored in database successfully, then show the
+          // success toast...
+          if(data === "success") {
+            $("#comments").load(location.href + " #comments");
+            document.getElementById("commentFormId").reset();
+            var x = document.getElementById("snackbar");
+            x.innerHTML = "You have commented successfully!";
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+          }
+          // Showing error message in the HTML...
+          if(typeof data.error != 'undefined') {
+            if(typeof data.comment != 'undefined') {
+              errorMessageComment.innerHTML = data.comment[0];
+            }
+          }
+        }
+      });
+    }
+  </script>
+@endpush
