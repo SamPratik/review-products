@@ -66,7 +66,7 @@
               <p class="row">
                 <span class="btn-container-under-post">
                   <a href="" style="margin-right:10px;" onclick="showEditReviewModal(event, {{ $post->id }})">Edit</a>
-                  <a href="#">Delete</a>
+                  <a href="#" onclick="deletePost(event, {{$post->id}})">Delete</a>
                 </span>
               </p>
               @includeif('posts.partials-show.edit-review')
@@ -84,7 +84,7 @@
                       @if ($post->user->id == Auth::user()->id)
                       <p>
                         <a onclick="showCommentEditModal(event, {{$comment->id}})" href="#" style="margin-right:10px;">Edit</a>
-                        <a href="#">Delete</a>
+                        <a href="" onclick="deleteComment(event, {{$comment->id}}, {{$post->id}})">Delete</a>
                       </p>
                       @endif
                     </div>
@@ -118,3 +118,64 @@
     </div>
   </div>
 @endsection
+
+{{-- Deleting post AJAX request --}}
+@push('scripts')
+  <script>
+    function deletePost(e, postId) {
+      e.preventDefault();
+      var c = confirm("Are you sure you want to delete this post?");
+
+      if(c == true) {
+        $.ajax({
+          url: '/review-products/public/post/delete/'+postId,
+          type: 'GET',
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            console.log(data);
+
+            // if post is deleted successfully then show the toast
+            // and refresh the div to show posts...
+            if(data === "success") {
+              var x = document.getElementById("snackbar");
+              x.innerHTML = "Post is successfully deleted!";
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+              window.location = '{{ route('home', 'all') }}';
+            }
+          }
+        });
+      }
+    }
+  </script>
+@endpush
+
+{{-- Comment Delete AJAX request --}}
+@push('scripts')
+  <script>
+    function deleteComment(e, commentId, postId) {
+      e.preventDefault();
+      console.log(commentId + ' ' + postId);
+      var c = confirm('Are you sure you want to delete this comment?');
+      if(c == true) {
+        $.ajax({
+          url: '/review-products/public/comments/delete/'+commentId,
+          type: 'GET',
+          contentType: false,
+          processData: false,
+          success: function(data) {
+            console.log(data);
+            if(data === "success") {
+              var x = document.getElementById("snackbar");
+              x.innerHTML = "Comment is successfully deleted!";
+              x.className = "show";
+              setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+              $("#comments").load(location.href + " #comments");
+            }
+          }
+        });
+      }
+    }
+  </script>
+@endpush
