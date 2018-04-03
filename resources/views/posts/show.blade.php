@@ -83,7 +83,7 @@
                       {{ $comment->comment }}
                       @if ($post->user->id == Auth::user()->id)
                       <p>
-                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editReviewModal">Edit</button>
+                        <a onclick="showCommentEditModal(event, {{$comment->id}})" href="#" style="margin-right:10px;">Edit</a>
                         <a href="#">Delete</a>
                       </p>
                       @endif
@@ -91,6 +91,8 @@
                   </div>
                 @endforeach
               </div>
+              {{-- Comment edit modal and functionality --}}
+              @includeif('posts.partials-show.edit-comment')
               <br><br>
               {{-- Comment input box --}}
               @includeif('posts.partials-show.comment-store')
