@@ -19,6 +19,8 @@
         <form id="editReviewForm" class="" method="post">
           {{ csrf_field() }}
           <input type="hidden" name="postId" id="postId" value="">
+          <input type="hidden" name="hiddenSubCatId" id="hiddenSubCatId" value="">
+
           <div class="form-group">
             <label for="">Display Images</label>
             <input type="file" name="files[]" multiple>
@@ -27,7 +29,7 @@
           </div>
           <div class="form-group">
             <label for="">Category</label>
-            <select name="category" id="cat" class="form-control form-control-sm">
+            <select name="category" id="cat" class="form-control form-control-sm" onchange="getEditSubCat(this.value)">
               <option value="1">Food</option>
               <option value="2">Electronics</option>
             </select>
@@ -35,9 +37,7 @@
           </div>
           <div class="form-group">
             <label for="">Sub Category</label>
-            <select name="subcategory" id="subCat" class="form-control form-control-sm">
-              <option value="1">Burger</option>
-              <option value="2">Pizza</option>
+            <select name="subcategory" id="editSubCat" class="form-control form-control-sm">
             </select>
             <p class="error-message-edit-review"></p>
           </div>
@@ -84,6 +84,42 @@
 {{-- Showing edit review modal and update review AJAX request --}}
 @push('scripts')
   <script>
+    // enabling sub category after selecting category and showing corresponding
+    // subcategories...
+    function getEditSubCat(cat_id) {
+      // console.log(cat_id + ' ' + token);
+      var fd = new FormData();
+      fd.append('catId', cat_id);
+      var hiddenSubCatId = $("#hiddenSubCatId").val();
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-Token': $('meta[name=_token]').attr('content')
+          }
+      });
+      $.ajax({
+        url: '{{ route('posts.getSubCat') }}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          var editSubCat = document.getElementById('editSubCat');
+          editSubCat.innerHTML = '';
+          for (let i = 0; i < data.length; i++) {
+            console.log(data[i].id);
+            var option = document.createElement("option");
+            option.setAttribute('value', data[i].id);
+            // if the sub category is the saved sub category then keep it selected...
+            if(hiddenSubCatId == data[i].id) {
+              option.setAttribute('selected', 'selected');
+            }
+            var optionText = document.createTextNode(data[i].name);
+            option.appendChild(optionText);
+            editSubCat.appendChild(option);
+          }
+        }
+      });
+    }
     // prepopulating edit review modal...
     function showEditReviewModal(e, postId) {
       e.preventDefault();
@@ -98,13 +134,14 @@
           console.log(data);
           $("#postId").val(postId);
           $("#cat").val(data.category_id);
-          $("#subCat").val(data.subcategory_id);
+          $("#hiddenSubCatId").val(data.subcategory_id);
           $("#item").val(data.item);
           $("#shop").val(data.shop_name);
           $("#location").val(data.shop_location);
           $("#price").val(data.price);
           $("#rating").val(data.rating);
           $("#comment").val(data.post);
+          getEditSubCat(data.category_id);
         }
       });
     }
