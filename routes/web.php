@@ -65,3 +65,5 @@ Route::get('admin', 'Admin\AdminController@index')->name('admin.top-items');
 Route::get('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 
 Route::get('admin/users', 'Admin\AdminController@users')->name('admin.users');
+Route::get('admin/foods', 'Admin\AdminController@foods')->name('admin.foods');
+Route::get('admin/electronics', 'Admin\AdminController@electronics')->name('admin.electronics');
