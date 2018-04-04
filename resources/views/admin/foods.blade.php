@@ -60,7 +60,9 @@
         processData: false,
         success: function(data) {
           console.log(data);
-          // $("#foodSubCats").load(location.href + " #foodSubCats");
+          if(data == "success") {
+            $("#foodSubCats").load(location.href + " #foodSubCats");
+          }
         }
       });
     }
