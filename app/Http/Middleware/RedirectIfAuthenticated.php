@@ -17,10 +17,21 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/');
-        }
+      switch ($guard) {
+        case 'admin':
+          //If the user is authenticated as an 'admin'
+          if (Auth::guard($guard)->check()) {
+            return redirect()->route('admin.top-items');
+          }
+          break;
 
-        return $next($request);
+        default:
+          if (Auth::guard($guard)->check()) {
+              return redirect()->route('home', 'all');
+          }
+          break;
+      }
+
+      return $next($request);
     }
 }

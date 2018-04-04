@@ -52,3 +52,14 @@ Route::post('comments/update', 'CommentController@update')->name('comments.updat
 Route::post('shop/search', 'Pages\PageController@shopSearch')->name('shops.search');
 Route::get('shop/{shop}', 'Pages\PageController@shopIndex')->name('shops.index');
 Route::get('items/reviews/{item}/{shop}', 'Pages\PageController@itemReviews')->name('items.review');
+
+                  ######################
+                      // Admin Routes
+                  ######################
+//This route is used to show admin login form
+Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
+//This is route is used to process login info
+Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
+//This route is used to show top items to admin
+Route::get('admin', 'Admin\AdminController@index')->name('admin.top-items');
+Route::get('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
