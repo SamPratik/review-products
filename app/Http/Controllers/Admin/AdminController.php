@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Post as Post;
+use App\SubCategory as SubCategory;
 
 class AdminController extends Controller
 {
@@ -23,7 +24,8 @@ class AdminController extends Controller
     }
 
     public function foods() {
-        return view('admin.foods');
+        $foodSubCats = SubCategory::where('category_id', 1)->orderBy('id', 'DESC')->get();
+        return view('admin.foods', ['foodSubCats' => $foodSubCats]);
     }
 
     public function electronics() {

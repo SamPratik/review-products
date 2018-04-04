@@ -64,6 +64,13 @@ Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login
 Route::get('admin', 'Admin\AdminController@index')->name('admin.top-items');
 Route::get('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 
+// Admin pages routes...
 Route::get('admin/users', 'Admin\AdminController@users')->name('admin.users');
 Route::get('admin/foods', 'Admin\AdminController@foods')->name('admin.foods');
 Route::get('admin/electronics', 'Admin\AdminController@electronics')->name('admin.electronics');
+
+// Admin routes to manage food subcategories...
+Route::resource('admin/foods', 'Admin\FoodsController', ['except' => [
+    'index', 'create', 'update', 'destroy', 'show'
+]]);
+Route::get('admin/foods/delete/{subcat}', 'Admin\FoodsController@destroy')->name('foods.destroy');
