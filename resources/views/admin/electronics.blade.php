@@ -14,7 +14,7 @@
       <li class="list-group-item">
         <h3 style="display:inline-block;">{{ $electronicsSubCat->name }}</h3>
         <span style="float:right;">
-          <button class="btn btn btn-outline-danger" type="button" name="button">Delete</button>
+          <button class="btn btn btn-outline-danger" type="button" name="button" onclick="deleteElectronicsSubCat({{$electronicsSubCat->id}})">Delete</button>
         </span>
         <p style="clear:both;"></p>
       </li>
@@ -40,6 +40,27 @@
           if(data == "success") {
             $("#electronicsSubCats").load(location.href + " #electronicsSubCats");
             document.getElementById('addElectronicsSubCatForm').reset();
+          }
+        }
+      });
+    }
+  </script>
+@endpush
+
+@push('scripts')
+  {{-- Deleting Food Subcategories --}}
+  <script>
+    function deleteElectronicsSubCat(electronicsSubCatId) {
+      $.ajax({
+        url: '/review-products/public/admin/electronics/delete/'+electronicsSubCatId,
+        type: 'GET',
+        // data: fd,
+        contentType: false,
+        processData: false,
+        success: function(data) {
+          console.log(data);
+          if(data == "success") {
+            $("#electronicsSubCats").load(location.href + " #electronicsSubCats");
           }
         }
       });

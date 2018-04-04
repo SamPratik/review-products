@@ -91,6 +91,26 @@ class ElectronicsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // select the post ids of the posts which contains this subcategory...
+        $posts = Post::select('id')->where('subcategory_id', $id)->get();
+        foreach ($posts as $post) {
+            // delete the comments which are under those posts...
+            $deleteComments = Comment::where('post_id', $post->id)->delete();
+            // select those images of the posts to unlink them...
+            $postImages = PostImage::select('image')->where('post_id', $post->id)->get();
+            // remove the images of those posts from public folder...
+            foreach($postImages as $postImage) {
+                $imagePath = public_path() . '/images/food-images/slider/' . $postImage->image;
+                unlink($imagePath);
+            }
+            // deleting image of those posts from database...
+            $deletePostImages = PostImage::where('post_id', $post->id)->delete();
+        }
+        // delete the posts which contains this subcategory...
+        $deletePosts = Post::where('subcategory_id', $id)->delete();
+        // deleting the selected sub category...
+        $deleteSubCategory = SubCategory::find($id)->delete();
+
+        return "success";
     }
 }
