@@ -29,6 +29,7 @@ class AdminController extends Controller
     }
 
     public function electronics() {
-        return view('admin.electronics');
+        $electronicsSubCats = SubCategory::where('category_id', 2)->orderBy('id', 'DESC')->get();
+        return view('admin.electronics', ['electronicsSubCats' => $electronicsSubCats]);
     }
 }

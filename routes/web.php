@@ -74,3 +74,9 @@ Route::resource('admin/foods', 'Admin\FoodsController', ['except' => [
     'index', 'create', 'update', 'destroy', 'show'
 ]]);
 Route::get('admin/foods/delete/{subcat}', 'Admin\FoodsController@destroy')->name('foods.destroy');
+
+// Admin routes to manage electronics sub catergories...
+Route::resource('admin/electronics', 'Admin\ElectronicsController', ['except' => [
+    'index', 'create', 'edit', 'update', 'destroy', 'show'
+]]);
+Route::get('admin/electronics/delete/{subcat}', 'Admin\ElectronicsController@destroy')->name('electronics.destroy');
