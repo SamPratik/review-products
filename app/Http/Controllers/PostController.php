@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User as User;
 use App\Post as Post;
 use App\Shop as Shop;
 use App\SubCategory as SubCategory;
@@ -117,6 +118,8 @@ class PostController extends Controller
             $postImage->image = $filename;
             $postImage->save();
         }
+        $incrementActivityPt = User::where('id', Auth::user()->id)
+                                    ->increment('activity_pt', 10);
         return "success";
     }
 

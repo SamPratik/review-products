@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment as Comment;
+use App\User as User;
 use Validator;
 use Auth;
 
@@ -53,7 +54,8 @@ class CommentController extends Controller
         $comment->post_id = $request->postId;
         $comment->user_id = Auth::user()->id;
         $comment->save();
-
+        $incrementActivityPt = User::where('id', Auth::user()->id)
+                                        ->increment('activity_pt', 5);
         return "success";
     }
 
