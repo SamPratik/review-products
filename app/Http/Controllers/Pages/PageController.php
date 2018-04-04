@@ -21,6 +21,16 @@ class PageController extends Controller
     }
 
     public function home($location) {
+    // if the users stored activity date is not matched with user's
+    // logged in date then update the stored activity_date with
+    // the new logged in date and increase the activity point by 5...
+     if(Auth::user()->activity_date != date("Y/m/d")) {
+         $update_activity_date = User::where('id', Auth::user()->id)
+                                   ->update(['activity_date' => date("Y/m/d")]);
+        $incrementActivityPt = User::where('id', Auth::user()->id)
+                                    ->increment('activity_pt', 5);
+     }
+
       $topFivePosts = Post::select(DB::raw('round(avg(rating), 2) as avg_rating'), 'item')->groupBy('item')->orderBy('avg_rating', 'DESC')->limit(5)->get();
       $shops = Post::select('shop_name')->distinct()->get();
       if($location == 'all') {
