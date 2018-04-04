@@ -63,3 +63,5 @@ Route::post('admin/login', 'Auth\AdminLoginController@login')->name('admin.login
 //This route is used to show top items to admin
 Route::get('admin', 'Admin\AdminController@index')->name('admin.top-items');
 Route::get('admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+
+Route::get('admin/users', 'Admin\AdminController@users')->name('admin.users');

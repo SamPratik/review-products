@@ -14,4 +14,8 @@ class AdminController extends Controller
     public function index() {
       return view('admin.top-items');
     }
+
+    public function users() {
+      return view('admin.users');
+    }
 }
