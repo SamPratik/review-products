@@ -179,7 +179,7 @@
 
       if(c == true) {
         $.ajax({
-          url: 'post/delete/'+postId,
+          url: '/review-products/public/post/delete/'+postId,
           type: 'GET',
           contentType: false,
           processData: false,
@@ -211,7 +211,7 @@
       var c = confirm('Are you sure you want to delete this comment?');
       if(c == true) {
         $.ajax({
-          url: 'comments/delete/'+commentId,
+          url: '/review-products/public/comments/delete/'+commentId,
           type: 'GET',
           contentType: false,
           processData: false,
