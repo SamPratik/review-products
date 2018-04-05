@@ -118,8 +118,18 @@ class PostController extends Controller
             $postImage->image = $filename;
             $postImage->save();
         }
-        $incrementActivityPt = User::where('id', Auth::user()->id)
-                                    ->increment('activity_pt', 10);
+        // if activity point is greater than 500 then add the extra
+        // points with the 20
+        if((Auth::user()->activity_pt+10) > 500) {
+            $extra = (Auth::user()->activity_pt+10) - 500;
+            $incr = 20+$extra;
+            $updateActivityPoint = User::where('id', Auth::user()->id)
+                                       ->update(['activity_pt' => $incr]);
+        } else {
+            $incrementActivityPt = User::where('id', Auth::user()->id)
+                                        ->increment('activity_pt', 10);
+        }
+
         return "success";
     }
 

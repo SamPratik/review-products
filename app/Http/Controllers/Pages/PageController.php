@@ -25,10 +25,20 @@ class PageController extends Controller
     // logged in date then update the stored activity_date with
     // the new logged in date and increase the activity point by 5...
      if(Auth::user()->activity_date != date("Y/m/d")) {
-         $update_activity_date = User::where('id', Auth::user()->id)
+        $update_activity_date = User::where('id', Auth::user()->id)
                                    ->update(['activity_date' => date("Y/m/d")]);
-        $incrementActivityPt = User::where('id', Auth::user()->id)
-                                    ->increment('activity_pt', 5);
+       // if activity point is greater than 500 then add the extra
+       // points with the 20
+       if((Auth::user()->activity_pt+5) > 500) {
+           $extra = (Auth::user()->activity_pt+5) - 500;
+           $incr = 20+$extra;
+           $updateActivityPoint = User::where('id', Auth::user()->id)
+                                      ->update(['activity_pt' => $incr]);
+       } else {
+           $incrementActivityPt = User::where('id', Auth::user()->id)
+                                       ->increment('activity_pt', 5);
+       }
+        // if(Auth::user()->activity_pt > )
      }
 
       $topFivePosts = Post::select(DB::raw('round(avg(rating), 2) as avg_rating'), 'item')->groupBy('item')->orderBy('avg_rating', 'DESC')->limit(5)->get();
