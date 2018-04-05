@@ -5,10 +5,10 @@
     </div>
     <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:380px;overflow:hidden;">
         @foreach ($topFivePosts as $topFivePost)
-            {{-- showing latest price and location of the item --}}
+            {{-- selecting latest price and shop name of the item --}}
             @php
                 $connection = mysqli_connect("localhost", "root", "", "review_products");
-                $price = "SELECT id, price, shop_location FROM posts WHERE item='{$topFivePost->item}' ORDER BY id DESC LIMIT 1";
+                $price = "SELECT p.id, p.price, p.shop_name, s.name FROM posts as p, sub_categories as s WHERE item='{$topFivePost->item}' AND p.subcategory_id = s.id ORDER BY id DESC LIMIT 1";
                 $resultPrice = mysqli_query($connection, $price);
                 $rowPrice = mysqli_fetch_assoc($resultPrice);
             @endphp
@@ -22,9 +22,10 @@
                 <img class="slider-img" data-u="image" src="{{ asset('images/food-images/slider/' . $rowImage['image']) }}" />
                 <div data-u="caption" data-t="0" style="position:absolute;top:350px;left:30px;width:500px;color:#fff;background-color:rgba(0,0,0,0.5);font-family:Oswald,sans-serif;font-size:32px;font-weight:200;line-height:1.2;text-align:center;">
                   <h2>{{ $topFivePost->item }}</h2>
+                  <p>{{ $rowPrice['name'] }}</p>
                   <p><i style="font-weight: bold;color: white;" class="fa fa-star" aria-hidden="true"></i> {{ $topFivePost->avg_rating }}/10</p>
                   <p>Price: {{ $rowPrice['price'] }}/-</p>
-                  <p>Location: {{ $rowPrice['shop_location'] }}</p>
+                  <p>Shop Name: {{ $rowPrice['shop_name'] }}</p>
                 </div>
             </div>
         @endforeach
