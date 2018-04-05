@@ -15,15 +15,18 @@
             {{Auth::user()->name}}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Edit Profile</a>
-            <a class="dropdown-item" href="#">Logout</a>
+            <a class="dropdown-item" href="{{route('profile.edit', Auth::user()->id)}}">Edit Profile</a>
+            <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
           </div>
           <p style="clear:both;"></p>
         </div>
+        @php
+          $activity_percent = (Auth::user()->activity_pt/500)*100;
+        @endphp
         <div class="col-md-12" style="margin-top:-10px;">
           <img height="30" width="30" src="{{asset('images/profile-images/' . Auth::user()->image)}}" alt="">
           <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%</div>
+            <div class="progress-bar" role="progressbar" style="width: {{$activity_percent}}%;" aria-valuenow="{{$activity_percent}}" aria-valuemin="0" aria-valuemax="100">{{$activity_percent}}%</div>
           </div>
           <span>Activity Point: </span>
           <p style="clear:both;"></p>
