@@ -1,36 +1,34 @@
-<div class="row header">
-  <div class="col-lg-4 col-md-3 col-sm-12">
-    <h2>Review Web</h2>
-  </div>
-  <form class="col-lg-4 col-md-3 col-sm-12">
-    <input class="form-control search-field" type="text" name="search" value="" placeholder="Enter a keyword to search">
-  </form>
-  <div class="col-lg-4 col-md-6 col-sm-12">
-    <div class="header-right">
-      <div class="row name-dropdown-container">
-        <li class="dropdown dropdown-container" style="list-style-type:none;">
-          <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ Auth::user()->name }}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ route('profile.edit', Auth::user()->id) }}">Edit Profile</a>
-            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
-          </div>
-        </li>
-      </div>
-      <div class="row progressbar-propic">
-        <div class="row">
-          <span style="color:white;">Activity Point:</span>
-          <div class="progress progress-bar-container">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <img style="border-radius:50%;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="" width="30px" height="30px;">
-          <p style="clear:both;"></p>
-        </div>
-      </div>
-      <div class="row activity-point-text-container">
-        <span>You need 480 points more to reach your goal.</span>
-      </div>
+<div class="header">
+  <div class="row" style="margin:0px;">
+    <div class="col-lg-4">
+      <h2 style="margin-top:15px;">Review Web</h2>
     </div>
+    <div class="col-lg-4">
+      <form style="width:100%;margin-top:20px;" action="index.html" method="post" autocomplete="off">
+        <input placeholder="Enter a keyword to search..." type="text" name="" value="">
+      </form>
+    </div>
+    <div class="col-lg-4 header-right">
+      <div class="dropdown col-md-12">
+        <button style="border:none;background-color:#000033;padding:0px;color:white;float:right;" class="btn btn-secondary btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{Auth::user()->name}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Edit Profile</a>
+          <a class="dropdown-item" href="#">Logout</a>
+        </div>
+        <p style="clear:both;"></p>
+      </div>
+      <div class="col-md-12" style="margin-top:-10px;">
+        <img height="30" width="30" src="{{asset('images/profile-images/' . Auth::user()->image)}}" alt="">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">20%</div>
+        </div>
+        <span>Activity Point: </span>
+        <p style="clear:both;"></p>
+      </div>
+      <p class="col-md-12"><span style="float:right;">You need 480 points more to reach you goal!</span></p>
+    </div>
+
   </div>
 </div>

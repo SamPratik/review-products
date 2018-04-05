@@ -1,58 +1,59 @@
 .header {
   background-color: #000033;
-  padding: 30px;
+  color: white;
+  padding: 30px 0px;
 }
 
-.search-field {
+.header input {
+  width:100%;
+  border-radius:5px;
+  outline:0px;
   background-color: #000033;
-  border-top: 0px solid black;
-  border-right: 0px solid black;
-  border-left: 0px solid black;
-  border-bottom: 1px solid #fff;
-  color: #fff;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  color: white;
 }
 
-.header h2 {
-  color: #fff;
-  font-weight: bold;
+.header-right img {
+  border-radius:50%;
+  float:right;
 }
 
-.progressbar-propic {
-  position:absolute;
-  right:50px;
-  top:25px;
+.header-right .progress {
+  width:200px;
+  display:inline-block;
+  float:right;
+  margin-top: 8px;
+  margin-right:5px;
 }
 
-.progress-bar-container {
-  width:150px;
-  margin: 5px 15px;
-}
-
-.name-dropdown-container {
-  position:relative;
-}
-
-.dropdown-container {
-  position:absolute;
-  right:25px;
-}
-
-#navbarDropdown {
-  color: #fff;
-}
-
-.header-right {
-  height:73px;
-}
-
-.activity-point-text-container {
-  position:relative;
-  top:50px;
-  right: 17px;
+.header-right span {
   color:white;
+  float:right;
+  margin-top: 3px;
+  margin-right:5px;
 }
 
-.activity-point-text-container span {
-  position:absolute;
-  right:0px;
+.header-right p {
+  color:white;
+  margin-top:-10px;
 }
+
+@media screen and (max-width:1202px) {
+  .header-right .progress {
+    width:150px;
+  }
+}
+
+@media screen and (max-width:1055px) {
+  .header-right .progress {
+    width:100px;
+  }
+}
+
+/* @media screen and (max-width:902px) {
+  .header-right span {
+    font-size:12px;
+  }
+} */
