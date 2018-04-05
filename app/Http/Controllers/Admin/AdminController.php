@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Post as Post;
+use App\User as User;
 use App\SubCategory as SubCategory;
 
 class AdminController extends Controller
@@ -20,7 +21,8 @@ class AdminController extends Controller
     }
 
     public function users() {
-      return view('admin.users');
+      $users = User::orderBy('activity_pt', 'desc')->get();
+      return view('admin.users', ['users' => $users]);
     }
 
     public function foods() {

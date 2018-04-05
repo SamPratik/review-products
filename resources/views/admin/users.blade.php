@@ -3,30 +3,12 @@
 @section('content')
   <ul class="list-group">
     <h2 class="text-center">USERS</h2>
-    <li class="list-group-item">
-      <h4>Name: Samiul Alim Pratik</h4>
-      <strong>Email: pratik.anwar@gmail.com</strong><br>
-      <strong>Activity Points: 300</strong>
-    </li>
-    <li class="list-group-item">
-      <h4>Name: Samiul Alim Pratik</h4>
-      <strong>Email: pratik.anwar@gmail.com</strong><br>
-      <strong>Activity Points: 300</strong>
-    </li>
-    <li class="list-group-item">
-      <h4>Name: Samiul Alim Pratik</h4>
-      <strong>Email: pratik.anwar@gmail.com</strong><br>
-      <strong>Activity Points: 300</strong>
-    </li>
-    <li class="list-group-item">
-      <h4>Name: Samiul Alim Pratik</h4>
-      <strong>Email: pratik.anwar@gmail.com</strong><br>
-      <strong>Activity Points: 300</strong>
-    </li>
-    <li class="list-group-item">
-      <h4>Name: Samiul Alim Pratik</h4>
-      <strong>Email: pratik.anwar@gmail.com</strong><br>
-      <strong>Activity Points: 300</strong>
-    </li>
+    @foreach ($users as $user)
+      <li class="list-group-item">
+        <h4>Name: {{ $user->name }}</h4>
+        <strong>Email: {{ $user->email }}</strong><br>
+        <strong>Activity Points: {{ $user->activity_pt }}</strong>
+      </li>
+    @endforeach
   </ul>
 @endsection
