@@ -4,8 +4,9 @@
       <h2 style="margin-top:15px;">Review Web</h2>
     </div>
     <div class="col-lg-4">
-      <form style="width:100%;margin-top:20px;" action="index.html" method="post" autocomplete="off">
-        <input placeholder="Enter a keyword to search..." type="text" name="" value="">
+      <form id="searchItemForm" style="width:100%;margin-top:20px;" autocomplete="off" method="post" action="{{route('search-results')}}">
+        {{ csrf_field() }}
+        <input placeholder="Enter a keyword to search..." type="text" name="searchItem" value="">
       </form>
     </div>
     <div class="col-lg-4 header-right">
@@ -37,3 +38,23 @@
 
   </div>
 </div>
+
+{{-- @push('scripts') --}}
+  {{-- <script>
+    function showSearchResults(e) {
+      // console.log("function called");
+      e.preventDefault();
+      var form = document.getElementById('searchItemForm');
+      var fd = new FormData(form);
+      $.ajax({
+        url: '{{route('search-results')}}',
+        type: 'POST',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function() {
+        }
+      });
+    }
+  </script> --}}
+{{-- @endpush --}}

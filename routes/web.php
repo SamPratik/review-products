@@ -18,6 +18,7 @@ Route::get('/', function() {
   return redirect()->route('home', 'all');
 });
 Route::get('/{location}/home', 'Pages\PageController@home')->name('home');
+Route::post('/search-results', 'Pages\PageController@searchResults')->name('search-results');
 Route::get('/profile', 'Pages\PageController@profile')->name('profile');
 Route::get('/profile/edit/{id}', 'Pages\PageController@profileEdit')->name('profile.edit');
 Route::post('/profile/update/{id}', 'Pages\PageController@profileUpdate')->name('profile.update');

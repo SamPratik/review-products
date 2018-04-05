@@ -56,6 +56,18 @@ class PageController extends Controller
       return view('home', ['posts' => $posts, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops, 'topFivePosts' => $topFivePosts]);
     }
 
+    public function searchResults(Request $request) {
+        // return $request->all();
+        $posts = Post::where('shop_name', 'like', '%'. $request->searchItem .'%')
+                        ->orWhere('shop_location', 'like', '%'. $request->searchItem .'%')
+                        ->orWhere('item', 'like', '%'. $request->searchItem .'%')
+                        ->get();
+        $foods = SubCategory::where('category_id', 1)->get();
+        $electronics = SubCategory::where('category_id', 2)->get();
+        $shops = Post::select('shop_name')->distinct()->get();
+        return view('search-results', ['posts' => $posts, 'foods' => $foods, 'electronics' => $electronics, 'shops' => $shops]);
+    }
+
     public function profile() {
       $shops = Post::select('shop_name')->distinct()->get();
       $id = Auth::user()->id;
