@@ -134,6 +134,7 @@
           // if review is stored in database successfully, then show the
           // success toast...
           if(data === "success") {
+            $("#headerRight").load(location.href + " #headerRight");
             $("#postWithComments"+postId).load(location.href + " #postWithComments"+postId);
             document.getElementById("commentFormId" + postId).reset();
             var x = document.getElementById("snackbar");
