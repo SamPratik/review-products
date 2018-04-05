@@ -61,6 +61,7 @@ class PageController extends Controller
         $posts = Post::where('shop_name', 'like', '%'. $request->searchItem .'%')
                         ->orWhere('shop_location', 'like', '%'. $request->searchItem .'%')
                         ->orWhere('item', 'like', '%'. $request->searchItem .'%')
+                        ->latest()
                         ->get();
         $foods = SubCategory::where('category_id', 1)->get();
         $electronics = SubCategory::where('category_id', 2)->get();
