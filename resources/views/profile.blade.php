@@ -1,5 +1,9 @@
 @extends('main')
 
+@section('meta-ajax')
+  <meta name="_token" content="{{ csrf_token() }}" />
+@endsection
+
 @section('ProfileActive', 'active')
 
 @push('styles')
