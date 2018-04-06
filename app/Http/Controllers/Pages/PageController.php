@@ -171,4 +171,20 @@ class PageController extends Controller
         $electronics = SubCategory::where('category_id', 2)->get();
         return view('food', ['foods' => $foods, 'electronics' => $electronics, 'posts' => $posts, 'shops' => $shops]);
     }
+
+    public function contact() {
+      $shops = Post::select('shop_name')->distinct()->get();
+      $foods = SubCategory::where('category_id', 1)->get();
+      $electronics = SubCategory::where('category_id', 2)->get();
+      return view('contact', ['shops' => $shops, 'foods' => $foods, 'electronics' => $electronics]);
+    }
+
+    public function sendMail(Request $request) {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email',
+            'orgMail' => 'required',
+            'message' => 'required'
+        ]);
+    }
 }

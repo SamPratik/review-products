@@ -24,6 +24,8 @@ Route::get('/profile/edit/{id}', 'Pages\PageController@profileEdit')->name('prof
 Route::post('/profile/update/{id}', 'Pages\PageController@profileUpdate')->name('profile.update');
 Route::get('/food/{food}', 'Pages\PageController@food')->name('food');
 Route::get('/electronics/{electronics}', 'Pages\PageController@electronics')->name('electronics');
+Route::get('/contact', 'Pages\PageController@contact')->name('contact');
+Route::post('/sendmail', 'Pages\PageController@sendMail')->name('sendMail');
 
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
