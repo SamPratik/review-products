@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail;
 use App\Comment as Comment;
 use App\User as User;
+use App\Mail\NotificationMail;
 use Validator;
 use Auth;
 
@@ -65,6 +67,7 @@ class CommentController extends Controller
             $incrementActivityPt = User::where('id', Auth::user()->id)
                                         ->increment('activity_pt', 5);
         }
+        Mail::to($request->email)->send(new NotificationMail($request->postId));
         return "success";
     }
 

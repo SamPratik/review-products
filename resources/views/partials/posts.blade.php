@@ -95,6 +95,7 @@
         <form autocomplete="off" id="commentFormId{{$post->id}}" class="row" onsubmit="storeComment(event, {{$post->id}})">
           {{ csrf_field() }}
           <input class="col-md-12" type="text" name="comment" placeholder="comment on this review...">
+          <input type="hidden" name="email" value="{{$post->user->email}}">
           <p class="error-message-comment" id="errorMessageComment{{$post->id}}"></p>
         </form>
       </div> {{-- media body for post --}}
