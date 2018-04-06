@@ -10,7 +10,10 @@
   </head>
   <body>
     <div class="container">
-      <p><strong>{{$name}}</strong> has commented on your review.</p>
+      <p>
+        <img style="border-radius:50%;" width="45" height="45" src="{{asset('images/profile-images/' . Auth::user()->image)}}" alt="">
+        <strong>{{$name}}</strong> has commented on your review.
+      </p>
       <div class="media" id="postWithComments{{$post->id}}">
         <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $post->user->image) }}" alt="Profile Pic">
         <div class="media-body">

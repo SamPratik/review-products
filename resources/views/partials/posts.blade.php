@@ -5,6 +5,7 @@
     }
   </style>
   {{ Html::style('css/toast.css') }}
+  {{ Html::style('css/partials/loader.css') }}
 @endpush
 
 {{-- Success alert --}}
@@ -98,6 +99,7 @@
           <input type="hidden" name="email" value="{{$post->user->email}}">
           <p class="error-message-comment" id="errorMessageComment{{$post->id}}"></p>
         </form>
+        @includeif('partials.loader')
       </div> {{-- media body for post --}}
     </div><hr> {{-- media for post --}}
   @endforeach {{-- loop for all posts --}}
@@ -115,6 +117,8 @@
     function storeComment(e, postId) {
       e.preventDefault();
 
+      document.getElementById('commentFormId'+postId).style.display = 'none';
+      document.getElementById('loader'+postId).style.display = 'block';
       var form = document.getElementById('commentFormId' + postId);
       var fd = new FormData(form);
       fd.append('postId', postId);
@@ -126,6 +130,8 @@
         contentType: false,
         processData: false,
         success: function(data) {
+          document.getElementById('loader'+postId).style.display = 'none';
+          document.getElementById('commentFormId'+postId).style.display = 'block';
           var errorMessageComment = document.getElementById('errorMessageComment' + postId);
           console.log(data);
           var errorMessageComments = document.getElementsByClassName('error-message-comment');
