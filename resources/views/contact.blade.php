@@ -7,6 +7,12 @@
 @section('content')
   <div class="container" style="padding:50px 0px;">
     <h2 class="text-center">CONTACT US</h2>
+    @if (session()->has('success'))
+      <div class="alert alert-success col-md-6 offset-md-3" role="alert">
+        {{session('success')}}
+      </div>
+    @endif
+
     <div class="row">
       <form class="col-md-6 offset-md-3" action="{{route('sendMail')}}" method="post">
         {{ csrf_field() }}
@@ -15,14 +21,6 @@
           @if ($errors->has('name'))
               <span class="help-block">
                   <strong>{{ $errors->first('name') }}</strong>
-              </span>
-          @endif
-        </div>
-        <div class="form-group">
-          <input class="form-control" type="email" name="email" value="{{old('email')}}" placeholder="Your Email">
-          @if ($errors->has('email'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('email') }}</strong>
               </span>
           @endif
         </div>

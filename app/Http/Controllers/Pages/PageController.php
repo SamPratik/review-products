@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Post as Post;
 use App\User as User;
 use App\Shop as Shop;
@@ -13,6 +14,7 @@ use Auth;
 use Session;
 use Image;
 use Validator;
+use Mail;
 
 class PageController extends Controller
 {
@@ -182,9 +184,12 @@ class PageController extends Controller
     public function sendMail(Request $request) {
         $this->validate($request, [
             'name' => 'required',
-            'email' => 'required|email',
             'orgMail' => 'required',
             'message' => 'required'
         ]);
+        Mail::to($request->orgMail)->send(new ContactMail($request));
+        Session::flash('success', 'Email sent successfully!');
+        return redirect()->route('contact');
+        // return $request->message . '<br>' . $request->name;
     }
 }
