@@ -1,7 +1,7 @@
 <div class="header">
   <div class="row" style="margin:0px;">
     <div class="col-lg-4">
-      <h2 style="margin-top:15px;">Review Web</h2>
+      <h2 style="margin-top:15px;"><img style="border-radius:50%;margin-top: -10px;margin-right: 10px;" width="45" height="45" src="{{asset('images/logo/logo.jpg')}}" alt=""><a style="color:white;text-decoration:none;" href="{{route('home', 'all')}}">ReviewGeek</a></h2>
     </div>
     <div class="col-lg-4">
       <form id="searchItemForm" style="width:100%;margin-top:20px;" autocomplete="off" method="post" action="{{route('search-results')}}">
