@@ -4,12 +4,13 @@
 
 nav {
   border-radius: 0px;
-  background-color: #5c39f2;
+  background-color: #000033;
 }
 
 .nav-link {
   color: #fff;
-  background-color: #5c39f2;
+  background-color: #000033;
+  border-radius: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
   -webkit-transition: color 1s, background-color 1s;
@@ -17,11 +18,12 @@ nav {
 }
 
 .nav-link:hover {
-  color: #5c39f2;
+  color: #000033;
   background-color: #fff;
 }
 
 .active {
-  color: #5c39f2;
+  color: #000033;
   background-color: #fff;
+  border-radius: 20px;
 }

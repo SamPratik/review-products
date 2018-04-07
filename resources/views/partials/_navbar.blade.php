@@ -35,7 +35,7 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{route('contact')}}">Contact</a>
+        <a class="nav-link @yield('ContactActive')" href="{{route('contact')}}">Contact</a>
       </li>
     </ul>
   </div>

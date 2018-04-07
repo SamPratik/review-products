@@ -1,5 +1,7 @@
 @extends('main')
 
+@section('ContactActive', 'active')
+
 @section('navbar')
   @includeif('partials._navbar')
 @endsection
