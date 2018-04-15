@@ -29,7 +29,7 @@ Route::post('/sendmail', 'Pages\PageController@sendMail')->name('sendMail');
 
 Auth::routes();
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+Route::get('login/google', 'Auth\LoginController@redirectToProvider')->name('google.login');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
 
 // Posts routes...

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 use Socialite;
+use App\SocialProvider as SocialProvider;
+use App\User as User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -54,8 +56,32 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('google')->user();
+        try {
+          $socialUser = Socialite::driver('google')->user();
+        }
+        catch(\Exception $e) {
+            return redirect('/');
+        }
 
-        return $user->token;
+        // check if we have logged provider...
+        $socialProvider = SocialProvider::where('provider_id', $socialUser->getId())->first();
+        if(!$socialProvider) {
+            // create a new user and provider...
+            $user = User::firstOrCreate(
+                ['email' => $socialUser->getEmail()],
+                ['name' => $socialUser->getName()]
+            );
+
+            $user->socialProviders()->create(
+                ['provider_id' => $socialUser->getId(), 'provider' => 'google']
+            );
+        }
+        else {
+            $user = $socialProvider->user;
+        }
+
+        auth()->login($user);
+
+        return redirect()->route('home', 'all');
     }
 }

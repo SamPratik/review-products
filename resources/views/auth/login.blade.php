@@ -55,6 +55,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     Login
                                 </button>
+                                <a href="{{route('google.login')}}" class="btn btn-danger">Login with Google</a>
 
                                 {{-- <a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?

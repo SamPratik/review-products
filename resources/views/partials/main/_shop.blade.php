@@ -52,7 +52,7 @@
           // creating anchor element...
           var anchor = document.createElement("a");
           anchor.setAttribute('class', 'list-group-item list-group-item-action flex-column align-items-start');
-          anchor.setAttribute('href', '/review-products/public/shop/'+data[i].shop_name);
+          anchor.setAttribute('href', '/shop/'+data[i].shop_name);
           // creating div element...
           var div = document.createElement("div");
           div.setAttribute('class', 'd-flex w-100 justify-content-between');
