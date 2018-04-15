@@ -13,7 +13,7 @@
 
       <div class="col-md-9">
         <div class="row">
-          <img width="45px" height="45px" style="border-radius:50%;margin-right: 20px;" src="{{ asset('images/profile-images/pratik propic1.jpg') }}" alt="Profile Pic">
+          <img width="45px" height="45px" style="border-radius:50%;margin-right: 20px;" src="{{ asset('images/profile-images/' . Auth::user()->image) }}" alt="Profile Pic">
           {{-- write review here input field... --}}
           <textarea data-toggle="modal" data-target="#reviewFormModal" style="margin-right:20px;" class="form-control write-review-textarea" name="name" rows="3" placeholder="Write a review"></textarea>
           <a href="{{ route('home', Auth::user()->location) }}"><span style="cursor:pointer;" title="click to see reviews at you own location"><i style="font-size:50px;font-weight: bold;color: #000033;" class="fa fa-map-marker"></i></span></a>
