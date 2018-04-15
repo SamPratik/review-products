@@ -17,7 +17,7 @@
       <img class="mr-3" width="45" height="45" style="border-radius:50%;" src="{{ asset('images/profile-images/' . $post->user->image) }}" alt="Profile Pic">
       <div class="media-body">
         <div id="reviewPost{{$post->id}}">
-          <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> <strong>{{ $post->subCategory->name }}</strong></h5>
+          <h5 class="mt-0"><strong>{{ $post->user->name }}</strong> gives review on <strong>{{ $post->item }}</strong> from subcategory <strong>{{ $post->subCategory->name }}</strong></h5>
           <div class="row">
             {{-- info of posts with icon --}}
             <div class="col-md-3" class="post-icon-container">
