@@ -171,7 +171,7 @@ class PageController extends Controller
         $posts = Post::where('item', $item)->where('shop_name', $shop)->latest()->get();
         $foods = SubCategory::where('category_id', 1)->get();
         $electronics = SubCategory::where('category_id', 2)->get();
-        return view('food', ['foods' => $foods, 'electronics' => $electronics, 'posts' => $posts, 'shops' => $shops]);
+        return view('item-reviews', ['foods' => $foods, 'electronics' => $electronics, 'posts' => $posts, 'shops' => $shops]);
     }
 
     public function contact() {
