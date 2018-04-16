@@ -38,8 +38,8 @@
 					Sign In
 				</span>
 
-				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
-					<input id="email" class="input100" type="email" name="email" value="{{ old('email') }}" placeholder="username or email">
+				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter email">
+					<input id="email" class="input100" type="email" name="email" value="{{ old('email') }}" placeholder="email">
 					@if ($errors->has('email'))
 							<span class="help-block" style="color:red;">
 									<strong>{{ $errors->first('email') }}</strong>
