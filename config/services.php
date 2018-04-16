@@ -36,9 +36,9 @@ return [
     ],
 
     'google' => [
-        'client_id' => '331758415614-uqdni50fkq6chu9l5usa5c4ha81arcqh.apps.googleusercontent.com',
-        'client_secret' => 'Ts23A-JpH1nrksbm864mn-Cv',
-        'redirect' => 'http://127.0.0.1:8000/login/google/callback',
+        'client_id' => '331758415614-7rjqqtbjjn7vopt1ia3n7f9b0qqs94nk.apps.googleusercontent.com',
+        'client_secret' => 'yyTW6CQolV8dMErsYbQnEkhI',
+        'redirect' => 'http://localhost/review-products/public/login/google/callback',
     ],
 
 ];
