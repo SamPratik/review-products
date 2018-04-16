@@ -112,7 +112,21 @@ class PostController extends Controller
             $image = $file;
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
             $location = public_path('images/food-images/slider/' . $filename);
-            Image::make($image)->resize(1366, 600)->save($location);
+            // create new image with transparent background color
+            $background = Image::canvas(1366, 600);
+            // Image::make($image)->resize(1366, 600)->save($location);
+            // read image file and resize it to 200x200
+            // but keep aspect-ratio and do not size up,
+            // so smaller sizes don't stretch
+            $resizedImage = Image::make($image)->resize(1366, 600, function ($c) {
+                $c->aspectRatio();
+                $c->upsize();
+            });
+            // insert resized image centered into background
+            $background->insert($resizedImage, 'center');
+            // save or do whatever you like
+            $background->save($location);
+
             $postImage = new PostImage;
             $postImage->post_id = $post->id;
             $postImage->image = $filename;
@@ -251,7 +265,20 @@ class PostController extends Controller
                 $image = $file;
                 $filename = uniqid() . '.' . $image->getClientOriginalExtension();
                 $location = public_path('images/food-images/slider/' . $filename);
-                Image::make($image)->resize(1366, 600)->save($location);
+                // create new image with transparent background color
+                $background = Image::canvas(1366, 600);
+                // Image::make($image)->resize(1366, 600)->save($location);
+                // read image file and resize it to 200x200
+                // but keep aspect-ratio and do not size up,
+                // so smaller sizes don't stretch
+                $resizedImage = Image::make($image)->resize(1366, 600, function ($c) {
+                    $c->aspectRatio();
+                    $c->upsize();
+                });
+                // insert resized image centered into background
+                $background->insert($resizedImage, 'center');
+                // save or do whatever you like
+                $background->save($location);
                 $postImage = new PostImage;
                 $postImage->post_id = $id;
                 $postImage->image = $filename;
